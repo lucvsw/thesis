@@ -18,15 +18,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, include=FALSE}
 # Pacotes necessários
-pacotes <- c("dplyr", "haven", "tinytex", "ggplot2", "fixest")
+pacotes <- c("dplyr", "haven", "tinytex", "ggplot2", "fixest", "writexl")
 invisible(lapply(pacotes, function(pkg) {
   if (!requireNamespace(pkg, quietly = TRUE)) install.packages(pkg)
   library(pkg, character.only = TRUE)
 }))
 
 # Carregando o arquivo de dados
-dados <- read_dta("/Users/lucas/Desktop/Lucas/Doutorado/2º Semestre/Microeconometria/Aulas/Aula 4 - Replication 1/data/final_HS_data.dta")
-
+dados <- read_dta("/Users/lucas/Desktop/Lucas/Doutorado/2º Semestre/Microeconometria/Aulas/Aula 4 - Replication 1/data/final_HS_data.dta") # aqui está o caminho para o arquivo com os dados em .dta
 ```
 
 \section{Replication Exercise}
@@ -42,6 +41,8 @@ dados <- read_dta("/Users/lucas/Desktop/Lucas/Doutorado/2º Semestre/Microeconom
 \end{itemize}
 
 \textbf{DESCRIPTION}: This do-file replicates the main results of Lavy et al (2001)'s paper, which includes the Tables 1-5 of the paper. For the most part of the replication exercise we will focus on the high-school sample. Because several cohorts are available, this sample allows us to test more complete models, including school trends when needed.
+
+\textbf{Exercício}: Fazer a replicação utilizado códigos em R. Originalmente, a replicação utilizava códigos de Stata.
    
 \subsection{II.C. Evidence on the Validity of the Identification Strategy }
 Some ilustrations about the randomness of the within variation of female proportion. First, we create a table containing the year, school id and female proportion:
