@@ -1,0 +1,403 @@
+---
+title: "Exercício - Aula 4"
+author: "Lucas Dutra"
+date: "2024-08-29"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+  - \usepackage{fontspec}
+  - \setmainfont{Helvetica}
+  - \usepackage{indentfirst}
+  - \setlength{\parindent}{15pt}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+# Pacotes necessários
+pacotes <- c("dplyr", "haven", "tinytex", "ggplot2", "fixest", "writexl")
+invisible(lapply(pacotes, function(pkg) {
+  if (!requireNamespace(pkg, quietly = TRUE)) install.packages(pkg)
+  library(pkg, character.only = TRUE)
+}))
+
+# Carregando o arquivo de dados
+dados <- read_dta("/Users/lucas/Desktop/Lucas/Doutorado/2º Semestre/Microeconometria/Aulas/Aula 4 - Replication 1/data/final_HS_data.dta") # aqui está o caminho para o arquivo com os dados em .dta
+```
+
+\section{Replication Exercise}
+\begin{itemize}
+  \item Microeconometrics 2024/II
+  \item Prof. Carlos Charris
+  \item Prof. Soraya Roman
+  \item Topic: Panel Data
+  \item Reference: Lavy, Victor, and Analia Schlosser. 2011. "Mechanisms and Impacts of Gender Peer Effects at School." American Economic Journal: Applied Economics, 3 (2): 1–33.
+  \item DOI: 10.1257/app.3.2.1
+  \item URL: https://www.aeaweb.org/articles?id=10.1257/app.3.2.1
+  \item INPUT FILES: Before running the codes, download the data folder and set your computer directory to this folder. The do-file uses the following datasets: final\_HS\_data.dta
+\end{itemize}
+
+\textbf{DESCRIPTION}: This do-file replicates the main results of Lavy et al (2001)'s paper, which includes the Tables 1-5 of the paper. For the most part of the replication exercise we will focus on the high-school sample. Because several cohorts are available, this sample allows us to test more complete models, including school trends when needed.
+
+\textbf{Exercício}: Fazer a replicação utilizado códigos em R. Originalmente, a replicação utilizava códigos de Stata.
+   
+\subsection{II.C. Evidence on the Validity of the Identification Strategy }
+Some ilustrations about the randomness of the within variation of female proportion. First, we create a table containing the year, school id and female proportion:
+```{r}
+df_collapsed <- dados %>%
+  group_by(semelmos, year) %>%
+  summarize(mfemale = sum(mfemale, na.rm = TRUE))
+```
+
+Then, we estimate the within variation. Variable dmfem contains the difference between any year female proportion and the average female proportion by school:
+```{r}
+df_collapsed <- df_collapsed %>%
+  group_by(semelmos) %>%
+  mutate(mfem_mean = mean(mfemale, na.rm = TRUE),  # Média de mfemale por semelmos
+         dmfem = mfemale - mfem_mean)              # Subtrair a média da variável mfemale
+```
+
+This graph shows that the distribution of the female proportion deviations is similar across years:
+```{r}
+ggplot(df_collapsed, aes(x = factor(year), y = dmfem)) +
+  geom_boxplot() +
+  labs(x = "Year", y = "DMFEM") +
+  theme_minimal()
+```
+
+Note that there are no visible difference (except for outliers) between two consecutive years. We can test if that is the case. We use non-parametric tests because of the asymmetries and outliers of the distributions.
+
+Average differences of female proportion deviations across years:
+```{r}
+df_summary <- df_collapsed %>%
+  group_by(year) %>%
+  summarize(mean_dmfem = mean(dmfem, na.rm = TRUE))
+```
+
+Non-parametric tests:
+```{r}
+# Função para executar os testes para pares de anos consecutivos
+test_comparisons <- function(df, start_year, end_year) {
+  for (i in start_year:end_year) {
+    # Filtra os dados para os dois anos consecutivos
+    data_subset <- df_collapsed %>% filter(year %in% c(i, i + 1))
+    
+    # Teste de Wilcoxon (rank-sum)
+    wilcox_test <- wilcox.test(dmfem ~ year, data = data_subset)
+    cat("Wilcoxon test for years", i, "and", i + 1, "\n")
+    print(wilcox_test)
+    
+    # Teste de Kolmogorov-Smirnov
+    ks_test <- ks.test(data_subset$dmfem[data_subset$year == i],
+                       data_subset$dmfem[data_subset$year == i + 1])
+    cat("Kolmogorov-Smirnov test for years", i, "and", i + 1, "\n")
+    print(ks_test)
+  }
+}
+
+# Executa a função para os anos de 1995 a 2001
+test_comparisons(df, 1995, 2001)
+```
+
+\noindent
+\textbf{Results:} show that for some of the adjacent cohorts in fact we find no systematic difference in the distribution of female proportion deviations, indicating that differences between these years happened almost as random events. However, in some years we find significant differences. In the estimation procedure, the authors include linear trends by school to try to control for long-term changes in school's performance that could be correlated to changes in female proportions. As the variation we are identifying relies on unexpected changes in female proportions through time, no much more can be done. If we adjust the time trends more flexibly (let's say allowing for a different slope in each year and school), we will end up absorbing the variation in the female proportion we are using to identify the effect of interest.
+
+\subsection{II.C.2: Columns 5 to 7 of Table 1 (Balancing Tests for the Proportion of Female Students)}
+
+Re-scaling year variable to use as trend later:
+```{r}
+# Reescalar a variável 'year'
+df_new <- dados %>%
+  mutate(year = year - 1994)
+
+# Variáveis para os testes de balanceamento
+balvars <- c("educ_av", "educ_em", "m_ahim", "ole", "israel", 
+             "asiafr", "etyopia", "euram", "heveram", "enrollment")
+
+# Regressões para cada variável
+results <- lapply(balvars, function(v) {
+  list(
+    # OLS com efeitos fixos para ano
+    ols = feols(as.formula(paste(v, "~ mfemale | year")), 
+                data = df_new, 
+                cluster = ~ semelmos),
+    
+    # Efeitos fixos para escola
+    fixed_effects_school = feols(as.formula(paste(v, "~ mfemale | year + semelmos")), 
+                                 data = df_new, cluster = ~ semelmos),
+    
+    # Efeitos fixos para escola + tendências lineares
+    fixed_effects_trends = feols(as.formula(paste(v, "~ mfemale | year + semelmos + semelmos:year")), 
+                                 data = df_new, cluster = ~ semelmos)
+  )
+})
+
+# Nomear os resultados para cada variável
+names(results) <- balvars
+
+# Exibir resultados
+results
+```
+
+Notice that as expected, once we control for year and school fixed effects, the explanatory power of the female proportion on individual's socioeconomic characteristics is null in almost all cases. Once more, this shows the exogeneity (randomness) of the changes in female proportion.
+
+\subsection{II.C.3: Columns 5 to 6 of Table 2 (The Effect of the Proportion Female on Student's School Mobility)}
+
+```{r}
+# Variáveis de controle para os modelos de regressão
+cvars <- c("educ_av", "av0", "av99", "av88", "avmiss", "educ_em", "em0", 
+           "em99", "em88", "emmiss", "m_ahim", "ah0", "ah88", "ah99", 
+           "ahmiss", "ole", "asiafr", "etyopia", "heveram", "euram",
+           "m_educ_av", "m_educ_em", "m_m_ahim", "m_ole", "m_asiafr", 
+           "m_euram", "m_heveram", "m_etyopia",
+           "enrollment", "enrollment2")
+
+# Média para homens
+mean_left_school_men <- dados %>%
+  filter(female == 0) %>%
+  summarize(mean_left_school = mean(left_school, na.rm = TRUE))
+
+# Média para mulheres
+mean_left_school_women <- dados %>%
+  filter(female == 1) %>%
+  summarize(mean_left_school = mean(left_school, na.rm = TRUE))
+
+# Modelos de regressão para prever o efeito da proporção feminina 
+# sobre a evasão escolar no ano seguinte
+# Para mulheres
+regression_women <- feols(as.formula(paste("left_school ~ mfemale +", 
+                                           paste(cvars, collapse = " + "), 
+                                           "| year + semelmos + semelmos:year")), 
+                          data = dados %>% filter(female == 1), 
+                          cluster = ~ semelmos)
+
+# Para homens
+regression_men <- feols(as.formula(paste("left_school ~ mfemale +", 
+                                         paste(cvars, collapse = " + "),
+                                         "| year + semelmos + semelmos:year")), 
+                        data = dados %>% filter(female == 0), 
+                        cluster = ~ semelmos)
+
+# Resultados
+list(
+  mean_left_school_men = mean_left_school_men,
+  mean_left_school_women = mean_left_school_women,
+  regression_women = regression_women,
+  regression_men = regression_men
+)
+```
+
+Results show evidence that sorting across schools may not be a source of endogeneity (bias) because the mobility is low and the female proportion has no explanatory power on this variable once we control for fixed effects.
+
+\subsection{III.A. Effects on High School Students' Achievements}
+
+Columns 1 to 4 of Table 3 (Estimates of the Effect of Proportion Female on Scholastic Outcomes in High School):
+```{r}
+# Lista de variáveis dependentes
+depvars <- c("wmean", "zakaibag", "units", "madmug", "university")
+
+# Especificação 1 e 2 para mulheres
+results_women <- lapply(depvars, function(depvar) {
+  list(
+    # Especificação 1: Efeitos fixos de escola + tendências lineares + covariáveis
+    spec1 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale +", 
+                             paste(cvars, collapse = " + "), "| year + semelmos")),
+            data = dados %>% filter(female == 1),
+            cluster = ~ semelmos),
+      error = function(e) e
+    ),
+    
+    # Especificação 2: Efeitos fixos de escola + tendências lineares
+    spec2 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale | year + semelmos")),
+            data = dados %>% filter(female == 1),
+            cluster = ~ semelmos),
+      error = function(e) e
+    )
+  )
+})
+
+# Especificação 1 e 2 para homens
+results_men <- lapply(depvars, function(depvar) {
+  list(
+    # Especificação 1: Efeitos fixos de escola + tendências lineares + covariáveis
+    spec1 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale +", 
+                             paste(cvars, collapse = " + "), "| year + semelmos")),
+            data = dados %>% filter(female == 0),
+            cluster = ~ semelmos),
+      error = function(e) e
+    ),
+    
+    # Especificação 2: Efeitos fixos de escola + tendências lineares
+    spec2 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale | year + semelmos")),
+            data = dados %>% filter(female == 0),
+            cluster = ~ semelmos),
+      error = function(e) e
+    )
+  )
+})
+
+# Exibir resultados
+list(
+  results_women = results_women,
+  results_men = results_men
+)
+```
+Notice that there are no systematic differences between specification 1 and 2, which indicates results are robust to the introduction of individual and cohort characteristics. Sign and significance of effects is as expected. Having more peers is beneficial for girls and prejudicial for boys. Authors indicate that the size of the effects are modest when compared to alternative educational policies.
+
+\subsection{III.B. Falsification tests}
+
+Columns 5 to 8 of Table 3 (Estimates of the Effect of Proportion Female on Scholastic Outcomes in High School)
+
+IDEA: We intend to capture the effect of an exogenous change in female proportion on scholastic outcomes. The authors want to prove that this effect is not coming from a spurious correlation (the observed effect comes from another unobservable variable correlated with the changes in female proportion). If this was the case, we would observe that the female proportion of the adjacent cohorts (which are different groups of individuals) can also significantly affect the scholastic outcomes of the current cohort. The authors show that these variables are statistically non-significant for the majority of the regression models.
+```{r}
+# Lista de variáveis dependentes
+depvars <- c("wmean", "zakaibag", "units", "madmug", "university")
+
+# Especificação de covariáveis
+cvars <- c("educ_av", "av0", "av99", "av88", "avmiss", 
+           "educ_em", "em0", "em99", "em88", "emmiss",
+           "m_ahim", "ah0", "ah88", "ah99", "ahmiss", 
+           "ole", "asiafr", "etyopia", "heveram", "euram",
+           "m_educ_av", "m_educ_em", "m_m_ahim", "m_ole", 
+           "m_asiafr", "m_euram", "m_heveram", "m_etyopia",
+           "enrollment", "enrollment2")
+
+# Falsificação para mulheres
+results_women <- lapply(depvars, function(depvar) {
+  list(
+    # Falsificação 1: Proporção feminina no t-1
+    falsification1 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale_past +", 
+                             paste(cvars, collapse = " + "), "| year + semelmos")),
+            data = dados %>% filter(female == 1),
+            cluster = ~ semelmos),
+      error = function(e) e
+    ),
+    
+    # Falsificação 2: Proporção feminina no t+1
+    falsification2 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale_fut +", 
+                             paste(cvars, collapse = " + "), "| year + semelmos")),
+            data = dados %>% filter(female == 1),
+            cluster = ~ semelmos),
+      error = function(e) e
+    )
+  )
+})
+
+# Falsificação para homens
+results_men <- lapply(depvars, function(depvar) {
+  list(
+    # Falsificação 1: Proporção feminina no t-1
+    falsification1 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale_past +", 
+                             paste(cvars, collapse = " + "), "| year + semelmos")),
+            data = dados %>% filter(female == 0),
+            cluster = ~ semelmos),
+      error = function(e) e
+    ),
+    
+    # Falsificação 2: Proporção feminina no t+1
+    falsification2 = tryCatch(
+      feols(as.formula(paste(depvar, "~ mfemale_fut +", 
+                             paste(cvars, collapse = " + "), "| year + semelmos")),
+            data = dados %>% filter(female == 0),
+            cluster = ~ semelmos),
+      error = function(e) e
+    )
+  )
+})
+
+# Exibir resultados
+list(
+  results_women = results_women,
+  results_men = results_men
+)
+```
+
+\textbf{Note:} Results are qualitatively similar, but effect size differ with respect to the paper's effects. Differences seem to come from different sample selection processes. For more information, see SAS code. 
+
+\subsection{III.C. Heterogeneous Treatment Effects}
+
+Table 4 (Heterogeneous Effects by Parental Education and Immigration Status). Parent's average education (if the education of one parent is missing, use the other's):
+```{r}
+# Calculando a média de educação dos pais
+dados <- dados %>%
+  mutate(
+    edtot = case_when(
+      av0 != 1 & av88 != 1 & av99 != 1 & avmiss != 1 & em0 != 1 & em88 != 1 & em99 != 1 & emmiss != 1 ~ rowMeans(select(., educ_av, educ_em), na.rm = TRUE),
+      is.na(rowMeans(select(., educ_av, educ_em))) & av0 != 1 & av88 != 1 & av99 != 1 & avmiss != 1 ~ educ_av,
+      is.na(rowMeans(select(., educ_av, educ_em))) & em0 != 1 & em88 != 1 & em99 != 1 & emmiss != 1 ~ educ_em,
+      TRUE ~ NA_real_
+    )
+  )
+
+# Lista de variáveis dependentes
+depvars <- c("wmean", "zakaibag", "units", "madmug", "university")
+
+# Análise para mulheres
+results_women <- lapply(depvars, function(depvar) {
+  list(
+    # Resultados por educação dos pais: baixa educação (coluna 2)
+    low_education = feols(as.formula(paste(depvar, "~ mfemale +", 
+                                           paste(cvars, collapse = " + "), 
+                                           "| year + semelmos + semelmos:year")),
+                          data = dados %>% filter(female == 1 & edtot <= 12),
+                          cluster = ~ semelmos),
+    
+    # Resultados por educação dos pais: alta educação (coluna 3)
+    high_education = feols(as.formula(paste(depvar, "~ mfemale +", 
+                                            paste(cvars, collapse = " + "), 
+                                            "| year + semelmos + semelmos:year")),
+                           data = dados %>% filter(female == 1 & edtot > 12 & !is.na(edtot)),
+                           cluster = ~ semelmos),
+    
+    # Resultados para novos imigrantes (coluna 4)
+    new_immigrants = feols(as.formula(paste(depvar, "~ mfemale +", 
+                                            paste(cvars, collapse = " + "), 
+                                            "| year + semelmos + semelmos:year")),
+                           data = dados %>% filter(female == 1 & ole == 1),
+                           cluster = ~ semelmos)
+  )
+})
+
+# Análise para homens
+results_men <- lapply(depvars, function(depvar) {
+  list(
+    # Resultados por educação dos pais: baixa educação (coluna 6)
+    low_education = feols(as.formula(paste(depvar, "~ mfemale +", 
+                                           paste(cvars, collapse = " + "), 
+                                           "| year + semelmos + semelmos:year")),
+                          data = dados %>% filter(female == 0 & edtot <= 12),
+                          cluster = ~ semelmos),
+    
+    # Resultados por educação dos pais: alta educação (coluna 7)
+    high_education = feols(as.formula(paste(depvar, "~ mfemale +", 
+                                            paste(cvars, collapse = " + "), 
+                                            "| year + semelmos + semelmos:year")),
+                           data = dados %>% filter(female == 0 & edtot > 12 & !is.na(edtot)),
+                           cluster = ~ semelmos),
+    
+    # Resultados para novos imigrantes (coluna 8)
+    new_immigrants = feols(as.formula(paste(depvar, "~ mfemale +", 
+                                            paste(cvars, collapse = " + "), 
+                                            "| year + semelmos + semelmos:year")),
+                           data = dados %>% filter(female == 0 & ole == 1),
+                           cluster = ~ semelmos)
+  )
+})
+
+# Exibir resultados
+list(
+  results_women = results_women,
+  results_men = results_men
+)
+```
+Note: As shown in the paper, results are coming from children with low parent's average education and new immigrants
