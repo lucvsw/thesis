@@ -1,6 +1,6 @@
-# Doutorado
+# Tese
 
-Este repositório contém Scripts utilizados em disciplinas do meu Doutorado em Economia pela Universidade Católica de Brasília.
+Este repositório contém os arquivos e scripts utilizados na minha Tese de Doutorado em Economia pela UCB.
 
 **Autor**: Lucas Dutra de Paulo <br />
 **Linguagem utilizada**: R.
