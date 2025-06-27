@@ -1,12 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-projeto_metro_sf|stem|15a15cee3006b3be|eb8bd54303ca146b|12f87e263a0c25c3|-1956434697||t20241.9612437201s|s2102b|2102|rds|local|vector|||2.13|package ‘AER’ was built under R version 4.3.3. package ‘fixest’ was built under R version 4.3.3|
 brasilia_sf|stem|a80eb49f6313794c|5b84bbfabdf32424|5d6a489850f9b214|-1008352363||t20241.961258653s|s7789b|7789|rds|local|vector|||1.258||
-RAs_sf|stem|42b562a17d4a18a6|3fc994b351d7aa53|1f94592aca9164ff|1023197676||t20241.9612747114s|s1369572b|1369572|rds|local|vector|||1.244||
-setores2010_sf|stem|c1bd894381732ccb|26516a0e31399759|9ffd79941b7be78a|866577902||t20241.9612914561s|s2313473b|2313473|rds|local|vector|||1.268||
-estacoes_sf|stem|6a218bfa549d3441|9858dcc9a1823d54|67e77c40380b4ca7|1432931591||t20241.9613016136s|s1889b|1889|rds|local|vector|||0.866||
-linhas_sf|stem|b407e87e0942513c|dcc0a80e4e31686f|999262bf9268182e|-1457389279||t20241.9613127621s|s54089b|54089|rds|local|vector|||0.94||
-setores2000_sf|stem|54f99197dbde46ee|e2090e9aca5392f0|ef4a29306eb367bf|1518509145||t20241.9613270658s|s1198941b|1198941|rds|local|vector|||1.077|st_crs<- : replacing crs does not reproject data; use st_transform for that|
-setores2000_rurais_sf|stem|cb600d87f1d3dea1|7e8ab4fd67b30f1d|72ef266cbf2d34d8|-1450400949||t20241.9687501767s|s63037b|63037|rds|local|vector|||0.241||
 funcao_compatibilizar|stem||3e223a4c8d1393d4|0d8d6af4196ccb17|1002662539||t20242.9193669358s||0|rds|local|vector|||0.914|package ‘AER’ was built under R version 4.3.3. package ‘fixest’ was built under R version 4.3.3|no applicable method for 'filter' applied to an object of class 'function'
 modelos_iv|stem|8eec09bba3261f31|7716624321c8067a|fd17635e78d660d8|1801148927||t20254.6360922724s|s142749b|142749|rds|local|vector|||0.64||
 criar_formula_iv|function|ba3eb5811ce82662
@@ -16,7 +9,6 @@ obter_censo_unido|stem|b108c39f1282741b|ee627b1466f47c93|cc2419040be44df4|793802
 unir_censo_metro|function|891188a39c3cb15d
 censo_com_metro|stem|a4f69addc8715b1d|51df13ae25c879a9|45957f385d28c857|-872905114||t20256.8335598728s|s887827b|887827|rds|local|vector|||0.755||
 get_censo_unido|function|7e0bcb4a6acca892
-censo_2010_unido|stem|5a1ea7e0b7084247|ef4571cb59536289|fae3b045e10206d7|-2091061125||t20257.0005152152s|s558616b|558616|rds|local|vector|||1.676||
 censo_DF_2010|stem|08b67f2d83faf94a|977dc289a62fdb5c|fb49bda92117c8ef|-1987590926||t20257.6743800031s|s235231b|235231|rds|local|vector|||0||
 censo_DF_2010_1|stem|03b4987566b180ce|54f5a1d73b0c1db9|fb49bda92117c8ef|801944179||t20257.6743839105s|s981072b|981072|rds|local|vector|||0||
 censo_DF_2000_instrucao|stem|645b2a0f75626cb2|78c4778da6810b8a|fb49bda92117c8ef|1413241297||t20257.674387527s|s386566b|386566|rds|local|vector|||0||
@@ -24,26 +16,52 @@ censo_DF_2000_responsavel|stem|1153e110548b2f60|e02f19a72e884aa5|fb49bda92117c8e
 censo_DF_2000_pessoa|stem|bfcc574bccf0ee2e|e3d68984051e3e95|fb49bda92117c8ef|-1721129821||t20257.6743928547s|s344202b|344202|rds|local|vector|||0||
 censo_DF_2000|stem|4e508542ebc37bac|69592dd426ae0f3a|fb49bda92117c8ef|-1085280144||t20257.6743955809s|s201206b|201206|rds|local|vector|||0||
 censo_2000_unido|stem|d4a1e7fcef1ab062|860f0c1d6a107630|3a4b0e5bb1d173ee|-2030984312||t20257.6744172982s|s625614b|625614|rds|local|vector|||1.795||
-censo_unido|stem|7cc6be2d93124c11|ec45a681ff28f0d2|7bfcf1e7068e13eb|1940692604||t20257.674431019s|s934363b|934363|rds|local|vector|||1.07||
-censo_compatibilizado|stem|6e1c6c42a1232346|e0b43f4a2fb9e378|9e9f823c16428583|-2132090777||t20257.676262703s|s858392b|858392|rds|local|vector|||158.152||
+dados_censitarios_raw|stem|063faf8f2fa05321|1f17220e7130ad19|2b88b74a92d33774|1496504925||t20257.7830848707s|s2687844b|2687844|rds|local|vector|||4.747||
+RAs_sf|stem|42b562a17d4a18a6|3fc994b351d7aa53|ad90168730c5f8d5|1023197676||t20257.7831011857s|s1369572b|1369572|rds|local|vector|||1.299||
+setores2010_sf|stem|c1bd894381732ccb|26516a0e31399759|416b89b87809b90e|866577902||t20257.7831250291s|s2313473b|2313473|rds|local|vector|||1.874||
+setores2000_sf|stem|54f99197dbde46ee|e2090e9aca5392f0|b2f9231f6bf144a0|1518509145||t20257.7831524711s|s1198941b|1198941|rds|local|vector|||1.298|st_crs<- : replacing crs does not reproject data; use st_transform for that|
+setores2000_rurais_sf|stem|cb600d87f1d3dea1|7e8ab4fd67b30f1d|ae7213d44b436a04|-1450400949||t20257.7831626441s|s63037b|63037|rds|local|vector|||0.833||
 regressao_com_ivreg_2000|function|ae833496f252bd53
-preparar_censo_bsb|function|2a3b67c251ec2fad
-unir_censo_2010|function|ba2e329a533221b3
-get_setores2000_rurais|function|c2bd9e6c2f2775da
-get_estacoes|function|76b0dd43ce61cbe7
-get_linhas|function|efae58fb461a4444
-unir_setores_temporais|function|f915dfd031fc29fb
 regressao_com_ivreg_2010|function|93668e345188b87a
-get_projeto|function|8bfbaee2d12f5e42
+censo_2010_unido|stem|79593f897697a15f|ef4571cb59536289|7aba9a99237ba65a|-2091061125||t20257.9975175774s|s565667b|565667|rds|local|vector|||1.485||
+censo_unido|stem|efa4a0dfb75ec418|ec45a681ff28f0d2|b171cbc06df1fb12|1940692604||t20257.9975305307s|s940901b|940901|rds|local|vector|||0.987||
+ivreg_2010|stem|5de53ed3fdd72bb6|78714d079a4160e8|5181db3b99be36f5|-919210059||t20257.9994219511s|s1540151b|1540151|rds|local|vector|||0.021||
+ivreg_2000|stem|601f5564d59e7ceb|580dd9d88fa75932|cc9243054e48f754|1463751014||t20257.9994197928s||1436321|rds|local|vector|||0.004||could not find function 'regressao_com_ivreg_2000'
+censo_com_novas_variaveis|stem|dbdfa9ed375f66b7|7a9a6e6043eada85|1f9294a7468c69b9|-2144425700||t20258.9308590561s|s984885b|984885|rds|local|vector|||0.725||
+preparar_censo_bsb|function|072f096a58c14dbb
+unir_censo_2010|function|db20ef52f8cd147e
+get_setores2000_rurais|function|8c9c091572ea854d
+get_estacoes|function|11abc4f070723b67
+get_linhas|function|947eaf358ceae46e
 get_brasilia|function|8848d4c48ccdb805
 novas_variaveis|function|d72470d509c5231b
 unir_censo_2000|function|e2e6429e6b002145
-get_setores2010|function|44a769c035dc8c95
-get_RAs|function|12ae6ab8cdf2668f
-get_dados_censitarios|function|630b0f88d0a95117
-get_setores2000|function|da0cfc0728599197
-uniao_setores|function|b99939d2187dcd3d
-dados_censitarios_raw|stem|063faf8f2fa05321|1f17220e7130ad19|a6d3b6ea21a9cc58|1496504925||t20257.7522900795s|s2687844b|2687844|rds|local|vector|||6.268|package ‘AER’ was built under R version 4.3.3. package ‘fixest’ was built under R version 4.3.3|
-censo_com_novas_variaveis|stem|365e7d0e72cf6630|7a9a6e6043eada85|dff7db4a5fc68097|-2144425700||t20257.7523021808s|s977395b|977395|rds|local|vector|||0.901||
-ivreg_2000|stem|4a0f71edf2bb3b31|580dd9d88fa75932|935485d3dcc2af25|1463751014||t20257.7523045698s|s1431025b|1431025|rds|local|vector|||0.014||
-ivreg_2010|stem|27f82571e5367a44|78714d079a4160e8|165fe8a22031c204|-919210059||t20257.7523065496s|s1524991b|1524991|rds|local|vector|||0.022||
+get_setores2010|function|1b5499eb44d1e0a7
+get_RAs|function|90a514a135a3eb8e
+get_dados_censitarios|function|e76fd40386efab6b
+get_setores2000|function|2666a27ea45b55b0
+excluir_duplicatas|function|cf83b0db418e8c20
+duplicatas_excluidas|stem|665ffe62131f8fb1|088f1d70aea29bd5|c1a85421cd9f09eb|1669741341||t20258.9867030965s|s979905b|979905|rds|local|vector|||2.684||
+projeto_metro_sf|stem|e7dfb75e2ec2f5d8|eb8bd54303ca146b|fd13d87c8b64ffdb|-1956434697||t20266.6766697864s|s1914b|1914|rds|local|vector|||3.584|package ‘AER’ was built under R version 4.3.3. package ‘fixest’ was built under R version 4.3.3. package ‘here’ was built under R version 4.3.3|
+censo_sf_2010|stem|26ff96f5ea4af86c|097fedcfa12f9af8|1bc21281bbeecebc|1472564204||t20266.6766999027s|s522340b|522340|rds|local|vector|||2.543||
+censo_sf_2000_completo|stem|8a9c445890559296|af1c54cd7f6f4754|63e571d89a611202|1959671294||t20266.6767159191s|s420018b|420018|rds|local|vector|||1.296||
+estacoes_sf|stem|9a12db681b71a6ec|0a503156a5312c77|e4d6c594ff194133|1432931591||t20266.6767162103s|s2050b|2050|rds|local|vector|||0.016||
+linhas_sf|stem|b2d2d174ca912760|f40c70533ccef686|507d5ab68abf7083|-1457389279||t20266.6767163796s|s44906b|44906|rds|local|vector|||0.007||
+censo_2010_DFs|stem|aafcaf74303bff70|099f524e2b090da8|f0af839a47bfdb65|1524229651||t20266.6781848708s|s1217766b|1217766|rds|local|vector|||1.452|package ‘AER’ was built under R version 4.3.3. package ‘fixest’ was built under R version 4.3.3. package ‘here’ was built under R version 4.3.3|
+censo_2000_DFs|stem|d8315dda3a77dcfc|de3f62e7a58d5a73|7387534894819b7e|-1515124544||t20266.6781960091s|s1470320b|1470320|rds|local|vector|||0.651||
+censo_2000_completo|stem|a45f32149bc58644|80de946d49f86a89|f6f5dc484c0b9929|1222982076||t20266.6781992913s|s516362b|516362|rds|local|vector|||0.137||
+censo_2010_completo|stem|5ce79a984b32ecdf|1c615fcde9d445e4|36538ec04c784293|-1394398502||t20266.6782019379s|s569072b|569072|rds|local|vector|||0.047||
+censo_para_compatibilizar|stem|6cd33a736efe6f0f|42a1e2a1f6938ec2|91d02b24b413c376|1991222957||t20266.6782087996s|s892111b|892111|rds|local|vector|||0.471||
+get_censo_sf_2000|function|18d5dd172e69a661
+unir_dados_sf_2010|function|ecc7c3f66ab91be6
+get_estacoes_sf|function|9634f6013c52eba3
+unir_dados_sf_2000|function|b09901cea772e6e6
+get_linhas_sf|function|570e17594dedf9bc
+get_censo_2010_DF|function|956ddaa40bae806e
+unir_setores_temporais|function|f915dfd031fc29fb
+get_censo_2000_DF|function|c40a4a19544a3981
+get_projeto|function|f559a810b5519e80
+preparar_para_compatibilizar|function|463a62ba53598d02
+get_censo_sf_2010|function|700bccfccf2722fc
+uniao_setores|function|c588d8887bb17a57
+censo_compatibilizado|stem|7658a612e7e65468|6a1368c20aaeaa26|c8b0f9436290453d|-2132090777||t20266.7062163155s|s832488b|832488|rds|local|vector|||153.15||
