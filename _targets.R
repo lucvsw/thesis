@@ -34,10 +34,8 @@ list(
   tar_target(censo_2010_DFs, get_censo_2010_DF()),
   tar_target(censo_2010_completo, unir_dados_sf_2010(censo_sf_2010, censo_2010_DFs, censo_2000_completo)),
   tar_target(censo_para_compatibilizar, preparar_para_compatibilizar(censo_2000_completo, censo_2010_completo)),
-  tar_target(censo_compatibilizado, uniao_setores(censo_para_compatibilizar))
-  # tar_target(censo_com_novas_variaveis, novas_variaveis(censo_compatibilizado, linhas_sf, projeto_metro_sf)),
-  # # tar_target(ivreg_2000, regressao_com_ivreg_2000(censo_com_novas_variaveis)),
-  # # tar_target(ivreg_2010, regressao_com_ivreg_2010(censo_com_novas_variaveis))
-  # tar_target(duplicatas_excluidas, excluir_duplicatas(censo_com_novas_variaveis)),
-  # tar_target(censo_final, criar_variacoes(duplicatas_excluidas))
+  tar_target(censo_compatibilizado, uniao_setores(censo_para_compatibilizar)),
+  tar_target(censo_com_novas_variaveis, novas_variaveis(censo_compatibilizado, linhas_sf, projeto_metro_sf)),
+  tar_target(duplicatas_excluidas, excluir_duplicatas(censo_com_novas_variaveis)),
+  tar_target(censo_final, criar_variacoes(duplicatas_excluidas))
   )

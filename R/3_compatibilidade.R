@@ -2,32 +2,24 @@
 
 # Preciso olhar novamente no QGIS para fazer a compatibilização
 unir_setores_temporais <- function(df, setores_2010, setor_2000, novo_codigo) {
+  
   df %>%
     # Remover setores de 2010 que serão fundidos
     filter(!(ano == 2010 & code_tract %in% setores_2010)) %>%
-
+    
     # Remover o setor de 2000 que será renomeado
     filter(!(ano == 2000 & code_tract == setor_2000)) %>%
-
-    # Criar novo setor de 2010 com setores fundidos
+    
+    # Adicionar linha fundida dos setores de 2010
     bind_rows(
       df %>%
         filter(ano == 2010 & code_tract %in% setores_2010) %>%
         mutate(geom = st_make_valid(geom)) %>%
-        summarise( 
-          domicilios = sum(domicilios, na.rm = TRUE), # uma ideia para automatizar esse processo: em vez de fazer essa soma para cada coluna, alterar a função para fazer essa soma para todas as colunas com exceção das colunas que isso não é necessário
-          renda_total = sum(renda_total, na.rm = TRUE),
-          pop      = sum(pop, na.rm = TRUE),
-          renda_percapita      = sum(renda_percapita, na.rm = TRUE),
-          renda_positiva      = sum(renda_positiva, na.rm = TRUE),
-          renda_media_positiva      = sum(renda_media_positiva, na.rm = TRUE),
-          ens_superior      = sum(ens_superior, na.rm = TRUE),
-          sem_renda      = sum(sem_renda, na.rm = TRUE),
-          idade_65      = sum(idade_65, na.rm = TRUE),
-          idade_70      = sum(idade_70, na.rm = TRUE),
-          idade_75      = sum(idade_75, na.rm = TRUE),
-          idade_80      = sum(idade_80, na.rm = TRUE),
-          analfabetos      = sum(analfabetos, na.rm = TRUE),
+        summarise(
+          across(
+            .cols = where(is.numeric) & !c(code_tract, ano, geom),  # soma todas as numéricas exceto código e ano
+            .fns  = ~sum(.x, na.rm = TRUE)
+          ),
           geom = st_union(geom),
           .groups = "drop"
         ) %>%
@@ -35,8 +27,8 @@ unir_setores_temporais <- function(df, setores_2010, setor_2000, novo_codigo) {
           code_tract = novo_codigo,
           ano = 2010
         ),
-
-      # Renomear o setor de 2000
+      
+      # Renomear o setor de 2000 para novo código
       df %>%
         filter(ano == 2000 & code_tract == setor_2000) %>%
         mutate(code_tract = novo_codigo)

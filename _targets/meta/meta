@@ -27,21 +27,17 @@ censo_2010_unido|stem|79593f897697a15f|ef4571cb59536289|7aba9a99237ba65a|-209106
 censo_unido|stem|efa4a0dfb75ec418|ec45a681ff28f0d2|b171cbc06df1fb12|1940692604||t20257.9975305307s|s940901b|940901|rds|local|vector|||0.987||
 ivreg_2010|stem|5de53ed3fdd72bb6|78714d079a4160e8|5181db3b99be36f5|-919210059||t20257.9994219511s|s1540151b|1540151|rds|local|vector|||0.021||
 ivreg_2000|stem|601f5564d59e7ceb|580dd9d88fa75932|cc9243054e48f754|1463751014||t20257.9994197928s||1436321|rds|local|vector|||0.004||could not find function 'regressao_com_ivreg_2000'
-censo_com_novas_variaveis|stem|dbdfa9ed375f66b7|7a9a6e6043eada85|1f9294a7468c69b9|-2144425700||t20258.9308590561s|s984885b|984885|rds|local|vector|||0.725||
 preparar_censo_bsb|function|072f096a58c14dbb
 unir_censo_2010|function|db20ef52f8cd147e
 get_setores2000_rurais|function|8c9c091572ea854d
 get_estacoes|function|11abc4f070723b67
 get_linhas|function|947eaf358ceae46e
 get_brasilia|function|8848d4c48ccdb805
-novas_variaveis|function|d72470d509c5231b
 unir_censo_2000|function|e2e6429e6b002145
 get_setores2010|function|1b5499eb44d1e0a7
 get_RAs|function|90a514a135a3eb8e
 get_dados_censitarios|function|e76fd40386efab6b
 get_setores2000|function|2666a27ea45b55b0
-excluir_duplicatas|function|cf83b0db418e8c20
-duplicatas_excluidas|stem|665ffe62131f8fb1|088f1d70aea29bd5|c1a85421cd9f09eb|1669741341||t20258.9867030965s|s979905b|979905|rds|local|vector|||2.684||
 projeto_metro_sf|stem|e7dfb75e2ec2f5d8|eb8bd54303ca146b|fd13d87c8b64ffdb|-1956434697||t20266.6766697864s|s1914b|1914|rds|local|vector|||3.584|package ‘AER’ was built under R version 4.3.3. package ‘fixest’ was built under R version 4.3.3. package ‘here’ was built under R version 4.3.3|
 censo_sf_2010|stem|26ff96f5ea4af86c|097fedcfa12f9af8|1bc21281bbeecebc|1472564204||t20266.6766999027s|s522340b|522340|rds|local|vector|||2.543||
 censo_sf_2000_completo|stem|8a9c445890559296|af1c54cd7f6f4754|63e571d89a611202|1959671294||t20266.6767159191s|s420018b|420018|rds|local|vector|||1.296||
@@ -52,16 +48,22 @@ censo_2000_DFs|stem|d8315dda3a77dcfc|de3f62e7a58d5a73|7387534894819b7e|-15151245
 censo_2000_completo|stem|a45f32149bc58644|80de946d49f86a89|f6f5dc484c0b9929|1222982076||t20266.6781992913s|s516362b|516362|rds|local|vector|||0.137||
 censo_2010_completo|stem|5ce79a984b32ecdf|1c615fcde9d445e4|36538ec04c784293|-1394398502||t20266.6782019379s|s569072b|569072|rds|local|vector|||0.047||
 censo_para_compatibilizar|stem|6cd33a736efe6f0f|42a1e2a1f6938ec2|91d02b24b413c376|1991222957||t20266.6782087996s|s892111b|892111|rds|local|vector|||0.471||
+censo_com_novas_variaveis|stem|bdb544bcd956b9a4|7a9a6e6043eada85|f9563ec8e794c4c7|-2144425700||t20266.784736443s|s994203b|994203|rds|local|vector|||0.757||
+duplicatas_excluidas|stem|62712092e9dcc509|088f1d70aea29bd5|0c9e2b84da967785|1669741341||t20266.7847697787s|s988466b|988466|rds|local|vector|||2.757||
+censo_compatibilizado|stem|7658a612e7e65468|6a1368c20aaeaa26|5035dd13245d924d|-2132090777||t20267.5677864271s|s832488b|832488|rds|local|vector|||151.713||
 get_censo_sf_2000|function|18d5dd172e69a661
 unir_dados_sf_2010|function|ecc7c3f66ab91be6
 get_estacoes_sf|function|9634f6013c52eba3
 unir_dados_sf_2000|function|b09901cea772e6e6
 get_linhas_sf|function|570e17594dedf9bc
 get_censo_2010_DF|function|956ddaa40bae806e
-unir_setores_temporais|function|f915dfd031fc29fb
+unir_setores_temporais|function|8645f60bfb0c91cf
 get_censo_2000_DF|function|c40a4a19544a3981
 get_projeto|function|f559a810b5519e80
 preparar_para_compatibilizar|function|463a62ba53598d02
+novas_variaveis|function|d72470d509c5231b
 get_censo_sf_2010|function|700bccfccf2722fc
-uniao_setores|function|c588d8887bb17a57
-censo_compatibilizado|stem|7658a612e7e65468|6a1368c20aaeaa26|c8b0f9436290453d|-2132090777||t20266.7062163155s|s832488b|832488|rds|local|vector|||153.15||
+excluir_duplicatas|function|cf83b0db418e8c20
+criar_variacoes|function|50d10a435570cf32
+uniao_setores|function|b44ebab8e4aedc7a
+censo_final|stem|8952f094e78a68f6|89b1c3d59b5a823a|c4514ff1ceac7602|147815581||t20267.5783502569s|s1018575b|1018575|rds|local|vector|||0.46||
