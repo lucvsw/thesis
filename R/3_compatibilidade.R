@@ -209,7 +209,7 @@ censo_sf_corrigido <- unir_setores_temporais(
 # Unir setores de 2010 que formam o setor 530010805120060 de 2000 e substituí-los pelo novo setor
 censo_sf_corrigido <- unir_setores_temporais(
   df = censo_sf_corrigido,
-  setores_2010 = c("530010805120075", "530010805120084"),
+  setores_2010 = c("530010805120075", "530010805120084", "530010805120077"),
   setor_2000   = "530010805120060",
   novo_codigo  = "5300108051200601"
 )
@@ -7628,6 +7628,14 @@ censo_sf_corrigido <- unir_setores_temporais(
   setores_2010 = c("530010805060262", "530010805060419", "530010805060420"),
   setor_2000   = "530010805060262",
   novo_codigo  = "5300108050602621"
+)
+
+# Unir setores de 2010 que formam o setor 530010805090054 de 2000 e substituí-los pelo novo setor
+censo_sf_corrigido <- unir_setores_temporais(
+  df = censo_sf_corrigido,
+  setores_2010 = c("530010805090063", "530010805090082", "530010805090100", "530010805090053", "530010805090054", "530010805090055", "530010805090091", "530010805090052"),
+  setor_2000   = "530010805090054",
+  novo_codigo  = "5300108050900541"
 )
 
 return(censo_sf_corrigido)

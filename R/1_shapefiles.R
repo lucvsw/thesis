@@ -19,6 +19,18 @@ get_projeto <- function() {
   return(projeto_metro_sf)
 }
 
+# Carregar projeto descartado do metro
+get_RAs <- function() {
+  RAs_sf <- st_read(here("shapefiles", "regioes_administrativas", "regioes_administrativas.shp"))
+  return(RAs_sf)
+}
+
+# Carregar rodovias
+get_rodovias_sf <- function() {
+  rodovias_sf <- st_read(here("shapefiles", "rodovias", "rodovia.shp"))
+  return(rodovias_sf)
+}
+
 # Carregar setores censitários de 2000
 get_censo_sf_2000 <- function() {
   # Shapefile do censo de 2000 - rural

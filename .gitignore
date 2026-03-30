@@ -1,4 +1,54 @@
+# macOS
+.DS_Store
+
+# R
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# targets cache
+_targets/
+
+# Dados gerados pelo pipeline
+*.gpkg
+*.rds
+
+# MapBiomas — arquivos grandes (>800MB cada)
+# Baixar em: https://mapbiomas.org/colecoes-mapbiomas
+# Coleção 9, classe Área Urbanizada (24), anos 2000 e 2010, recortados para o DF
+# Salvar em: dados/MapBiomas - Urbanizacao/2000.tif e 2010.tif
+dados/MapBiomas - Urbanizacao/
+
+# Outputs gerados
+*.html
+analise_covariaveis.md
+resultados_heterogeneidade_RAs.md
+*.png
+Thesis.pdf
+
+# Arquivos soltos na raiz não pertencentes ao pipeline
+6_regressao_income.R
+mapbiomas_urbanizacao.R
+run_mecanismos.R
+
+# Dados do censo não usados pelo pipeline
+dados/Dados setores sensitarios DF/2000/Arquivo leia-me Antes.txt
+dados/Dados setores sensitarios DF/2000/Documentação.doc
+"dados/Dados setores sensitarios DF/2000/Informações Censo 2000.pdf"
+dados/Dados setores sensitarios DF/2010/censo_DF_2010_RAW.XLS
+"dados/Dados setores sensitarios DF/2010/Informações Censo 2010 - Universo novo.pdf"
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa01_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa02_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa03_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa04_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa05_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa06_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa07_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa08_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa09_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa10_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa11_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa12_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Pessoa13_DF.xls
+dados/Dados setores sensitarios DF/2010/EXCEL/Responsavel01_DF.xls
