@@ -1,5 +1,30 @@
 # Este script pega os dados das malhas censitárias fornecidos pelo IBGE e une com os shapefiles dos dois anos
 
+# Cor/raça 2000 via microdados amostrais (censobr) ─────────────────────────────
+# Nota: o Censo 2000 coletou cor/raça apenas no questionário da amostra (10%).
+# Os pesos V0010 expandem para o universo. As estimativas por setor são não-viesadas,
+# mas têm variância amostral. O Censo 2010 usou questionário universal (sem amostragem).
+get_raca_2000_DF <- function() {
+  pop_2000 <- censobr::read_population(
+    year          = 2000,
+    columns       = c("code_tract", "abbrev_state", "V0404", "V0010"),
+    add_labels    = "pt",
+    as_data_frame = FALSE,
+    showProgress  = FALSE
+  )
+
+  pop_2000 |>
+    dplyr::filter(abbrev_state == "DF", !is.na(V0404)) |>
+    dplyr::group_by(code_tract) |>
+    dplyr::summarise(
+      pop_raca = sum(V0010, na.rm = TRUE),
+      n_preta  = sum(V0010 * (V0404 == "Preta"), na.rm = TRUE),
+      n_parda  = sum(V0010 * (V0404 == "Parda"), na.rm = TRUE)
+    ) |>
+    dplyr::collect() |>
+    dplyr::mutate(code_tract = as.character(code_tract))
+}
+
 # Obtendo os dataframes dos dados a serem mesclados com o shapefile do censo de 2000
 get_censo_2000_DF <- function() {
   # Dados da planilha básica de 2000
@@ -33,7 +58,7 @@ get_censo_2000_DF <- function() {
 }
 
 # Mesclando os dados com o shapefile para 2000
-unir_dados_sf_2000 <- function(censo_sf_2000_completo, dados_lista) {
+unir_dados_sf_2000 <- function(censo_sf_2000_completo, dados_lista, raca_2000_DF) {
   # Extrair os objetos da lista
   censo_DF_2000 <- dados_lista$censo_DF_2000
   censo_DF_2000_responsavel <- dados_lista$censo_DF_2000_responsavel
@@ -69,6 +94,16 @@ unir_dados_sf_2000 <- function(censo_sf_2000_completo, dados_lista) {
           moradores_homens = as.numeric(V0292)
         ),
       by = c("code_tract" = "Cod_setor")
+    ) %>%
+    left_join(
+      raca_2000_DF %>%
+        transmute(
+          code_tract,
+          pop_raca = as.numeric(pop_raca),
+          preta    = as.numeric(n_preta),
+          parda    = as.numeric(n_parda)
+        ),
+      by = "code_tract"
     ) %>%
     rename(
       domicilios = Var01,
@@ -124,12 +159,18 @@ get_censo_2010_DF <- function() {
   censo_DF_2010_resp02 <- censo_DF_2010_resp02 %>%
     mutate(Cod_setor = as.character(Cod_setor))
 
+  # Cor/raça 2010 (universo) — V001 total, V003 preta, V005 parda
+  censo_DF_2010_pessoa03 <- read_excel(file.path(base2010, "Pessoa03_DF.xls"))
+  censo_DF_2010_pessoa03 <- censo_DF_2010_pessoa03 %>%
+    mutate(Cod_setor = as.character(Cod_setor))
+
   return(list(
     censo_DF_2010 = censo_DF_2010,
     censo_DF_2010_responsavel = censo_DF_2010_responsavel,
     censo_DF_2010_domicilio = censo_DF_2010_domicilio,
     censo_DF_2010_domicilio02 = censo_DF_2010_domicilio02,
-    censo_DF_2010_resp02 = censo_DF_2010_resp02
+    censo_DF_2010_resp02 = censo_DF_2010_resp02,
+    censo_DF_2010_pessoa03 = censo_DF_2010_pessoa03
   ))
 }
 
@@ -140,6 +181,7 @@ unir_dados_sf_2010 <- function(censo_sf_2010, dados_lista, censo_2000_completo) 
   censo_DF_2010_domicilio <- dados_lista$censo_DF_2010_domicilio
   censo_DF_2010_domicilio02 <- dados_lista$censo_DF_2010_domicilio02
   censo_DF_2010_resp02 <- dados_lista$censo_DF_2010_resp02
+  censo_DF_2010_pessoa03 <- dados_lista$censo_DF_2010_pessoa03
   
   # Adicionando os dados ao shapefile de 2010
   censo_2010_completo <- censo_sf_2010 %>%
@@ -174,6 +216,16 @@ unir_dados_sf_2010 <- function(censo_sf_2010, dados_lista, censo_2000_completo) 
           Cod_setor,
           resp_heads_total = suppressWarnings(as.numeric(V001)),
           resp_heads_alfab = suppressWarnings(as.numeric(V093))
+        ),
+      by = c("code_tract" = "Cod_setor")
+    ) %>%
+    left_join(
+      censo_DF_2010_pessoa03 %>%
+        transmute(
+          Cod_setor,
+          pop_raca = suppressWarnings(as.numeric(V001)),
+          preta    = suppressWarnings(as.numeric(V003)),
+          parda    = suppressWarnings(as.numeric(V005))
         ),
       by = c("code_tract" = "Cod_setor")
     ) %>%

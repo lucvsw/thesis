@@ -71,9 +71,12 @@ novas_variaveis <- function(censo_sf_corrigido, linhas_sf, projeto_metro_sf, est
                                (total_moradores - moradores_homens) / total_moradores,
                                NA_real_),
       prop_fam_num    = ifelse(domicilios > 0, dom_5mais / domicilios, NA_real_),
-      prop_analf_resp = ifelse(resp_heads_total > 0,
-                               (resp_heads_total - resp_heads_alfab) / resp_heads_total,
-                               NA_real_),
+      prop_analf_resp  = ifelse(resp_heads_total > 0,
+                                (resp_heads_total - resp_heads_alfab) / resp_heads_total,
+                                NA_real_),
+      prop_preto_pardo = ifelse(!is.na(pop_raca) & pop_raca > 0,
+                                (preta + parda) / pop_raca,
+                                NA_real_),
 
       ## distância contínua até estação mais próxima (em metros)
       dist_estacao          = as.numeric(dist_estacao),
