@@ -2,7 +2,7 @@ library(targets)
 
 # Opções target:
 tar_option_set(
-  packages = c("httr", "sf", "ggplot2", "geobr", "readxl", "dplyr", "readr", "units", "tidyr", "AER", "fixest", "magrittr", "here", "terra"), # Pacotes.
+  packages = c("httr", "sf", "ggplot2", "geobr", "readxl", "dplyr", "readr", "units", "tidyr", "AER", "fixest", "magrittr", "here", "terra", "censobr", "arrow"), # Pacotes.
   format = "rds", 
 )
 
@@ -23,7 +23,8 @@ list(
   tar_target(censo_sf_2000_completo, get_censo_sf_2000()),
   tar_target(censo_sf_2010, get_censo_sf_2010()),
   tar_target(censo_2000_DFs, get_censo_2000_DF()),
-  tar_target(censo_2000_completo, unir_dados_sf_2000(censo_sf_2000_completo, censo_2000_DFs)),
+  tar_target(raca_2000_DF, get_raca_2000_DF()),
+  tar_target(censo_2000_completo, unir_dados_sf_2000(censo_sf_2000_completo, censo_2000_DFs, raca_2000_DF)),
   tar_target(censo_2010_DFs, get_censo_2010_DF()),
   tar_target(censo_2010_completo, unir_dados_sf_2010(censo_sf_2010, censo_2010_DFs, censo_2000_completo)),
   tar_target(censo_para_compatibilizar, preparar_para_compatibilizar(censo_2000_completo, censo_2010_completo)),
@@ -32,6 +33,7 @@ list(
   tar_target(duplicatas_excluidas, excluir_duplicatas(censo_com_novas_variaveis)),
   tar_target(censo_variacoes, criar_variacoes(duplicatas_excluidas)),
   tar_target(censo_final, criar_coeficientes(censo_variacoes)),
+  tar_target(tabela_descritiva, tabela_estatisticas_descr(censo_final)),
   tar_target(resultados_importancia_covariaveis, analise_importancia_covariaveis(censo_final)),
   tar_target(amostra_regressoes, preparar_amostra_regressoes(censo_final)),
   tar_target(resultados_regressoes, rodar_regressoes(amostra_regressoes)),
