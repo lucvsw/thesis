@@ -122,7 +122,7 @@ Raw inputs are IBGE census tables for the Federal District (2000 and 2010) and s
 
 ## Use of AI tools
 
-I used Claude (Anthropic) as a tool to help organize and review code and text, in the same way I use R or LaTeX. The research design, empirical analysis, results and conclusions are my own, and I am responsible for everything in this repository.
+I used Claude (Anthropic) as a tool to help organize and review code and text. The research design, empirical analysis, results and conclusions are my own, and I am responsible for everything in this repository.
 
 ## Citation
 
