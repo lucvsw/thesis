@@ -33,7 +33,7 @@ where $X_{r}^{2010}$ denotes the value of a given variable $X$ (e.g., population
 
 Table~\ref{tab:correlogram} reports the Moran's $I$ statistic computed on the second-stage residuals of the baseline IV specification (specification 4, full controls) at successive 1 km distance bands. For each band, all pairs of census-tract centroids whose great-circle distance falls within the band are treated as spatial neighbours; the row-standardised weights matrix is then used to compute the statistic. The $Z$-score and associated $p$-value are derived under the randomisation assumption.
 
-The correlogram reveals that spatial autocorrelation in the residuals is a strictly local phenomenon. The strongest signal is in the 0--1 km band ($I = 0.057$, $Z = 6.17$, $p < 0.001$), reflecting correlation between adjacent tracts. Autocorrelation drops sharply and is statistically indistinguishable from zero in the 1--2 km band, with a weak secondary signal at 2--3 km ($I = 0.014$, $p = 0.011$). Beyond 3 km, no consistent positive autocorrelation is present; the 8--9 km band shows a small positive spike ($I = 0.013$, $p < 0.001$) that is attributable to the circular geometry of the estimation sample (a 10 km buffer around the subway network), which places tracts on opposite sides of the buffer at approximately this distance. On the basis of this correlogram, the Conley bandwidth in Table~\ref{tab:iv_results_conley} is set to 3 km, which encompasses both the primary and secondary significant bands and excludes the geometric artefact.
+The correlogram reveals that spatial autocorrelation in the residuals is a strictly local phenomenon. The strongest signal is in the 0--1 km band ($I = 0.063$, $Z = 6.79$, $p < 0.001$), reflecting correlation between adjacent tracts. Autocorrelation drops sharply and is statistically indistinguishable from zero in the 1--2 km band, with a weak secondary signal at 2--3 km ($I = 0.016$, $p = 0.004$). Beyond 3 km, no consistent positive autocorrelation is present; the 8--9 km band shows a small positive spike ($I = 0.012$, $p < 0.001$) that is attributable to the circular geometry of the estimation sample (a 10 km buffer around the subway network), which places tracts on opposite sides of the buffer at approximately this distance. On the basis of this correlogram, the Conley bandwidth in Table~\ref{tab:iv_results_conley} is set to 3 km, which encompasses both the primary and secondary significant bands and excludes the geometric artefact.
 
 \begin{table}[htbp]
 \centering
@@ -44,21 +44,21 @@ The correlogram reveals that spatial autocorrelation in the residuals is a stric
 \toprule
 Distance band & $I$ & $E[I]$ & $Z$ & $p$-value \\
 \midrule
-0--1 km  & $\phantom{-}0.057$ & $-0.001$ & $\phantom{-}6.17$ & $<0.001^{***}$ \\
-1--2 km  & $-0.010$           & $-0.001$ & $-1.40$           & $0.919$ \\
-2--3 km  & $\phantom{-}0.014$ & $-0.001$ & $\phantom{-}2.29$ & $0.011$ \\
-3--4 km  & $\phantom{-}0.002$ & $-0.001$ & $\phantom{-}0.57$ & $0.285$ \\
-4--5 km  & $-0.005$           & $-0.001$ & $-1.00$           & $0.842$ \\
-5--6 km  & $-0.008$           & $-0.001$ & $-1.98$           & $0.976$ \\
-6--7 km  & $-0.016$           & $-0.001$ & $-3.90$           & $>0.999$ \\
-7--8 km  & $-0.010$           & $-0.001$ & $-2.49$           & $0.994$ \\
-8--9 km  & $\phantom{-}0.013$ & $-0.001$ & $\phantom{-}3.25$ & $<0.001^{***}$ \\
-9--10 km & $-0.006$           & $-0.001$ & $-1.25$           & $0.894$ \\
-10--11 km & $-0.008$          & $-0.001$ & $-1.83$           & $0.966$ \\
-11--12 km & $\phantom{-}0.004$ & $-0.001$ & $\phantom{-}1.10$ & $0.137$ \\
-12--13 km & $-0.001$          & $-0.001$ & $-0.15$           & $0.558$ \\
-13--14 km & $-0.003$          & $-0.001$ & $-0.41$           & $0.660$ \\
-14--15 km & $-0.002$          & $-0.001$ & $-0.36$           & $0.642$ \\
+0--1 km  & $\phantom{-}0.063$ & $-0.001$ & $\phantom{-}6.79$ & $<0.001^{***}$ \\
+1--2 km  & $-0.006$           & $-0.001$ & $-0.73$           & $0.768$ \\
+2--3 km  & $\phantom{-}0.016$ & $-0.001$ & $\phantom{-}2.68$ & $0.004^{***}$ \\
+3--4 km  & $\phantom{-}0.002$ & $-0.001$ & $\phantom{-}0.54$ & $0.295$ \\
+4--5 km  & $-0.004$           & $-0.001$ & $-0.77$           & $0.778$ \\
+5--6 km  & $-0.009$           & $-0.001$ & $-2.17$           & $0.985$ \\
+6--7 km  & $-0.015$           & $-0.001$ & $-3.60$           & $>0.999$ \\
+7--8 km  & $-0.011$           & $-0.001$ & $-2.70$           & $0.997$ \\
+8--9 km  & $\phantom{-}0.012$ & $-0.001$ & $\phantom{-}3.22$ & $<0.001^{***}$ \\
+9--10 km & $-0.005$           & $-0.001$ & $-1.18$           & $0.882$ \\
+10--11 km & $-0.009$          & $-0.001$ & $-2.10$           & $0.982$ \\
+11--12 km & $\phantom{-}0.004$ & $-0.001$ & $\phantom{-}1.12$ & $0.132$ \\
+12--13 km & $-0.002$          & $-0.001$ & $-0.25$           & $0.599$ \\
+13--14 km & $-0.005$          & $-0.001$ & $-0.93$           & $0.824$ \\
+14--15 km & $-0.001$          & $-0.001$ & $-0.15$           & $0.558$ \\
 \bottomrule
 \end{tabular}%
 }
@@ -75,7 +75,7 @@ The mechanisms analysis in Section~\ref{s:mechanisms} rules out sorting and urba
 
 To operationalize this question, we construct a permissibility index based on the maximum floor area ratio (\emph{Coeficiente de Aproveitamento Máximo}, CfAM) permitted within each administrative region (RA). The CfAM governs the maximum ratio of built floor area to lot area: a CfAM of 7.0 allows a building with total floor area seven times the plot size, whereas a CfAM of 1.0 restricts construction to the footprint of the lot. Each census tract is assigned the maximum CfAM of the RA in which it falls, using the value for the most dynamically zoned category within each RA (``Vias de Atividades'' or ``Centro Urbano'')---the regulatory ceiling for the most intensively developed zone, excluding atypical site-specific exceptions. This assignment captures the upper bound of what is legally buildable within each RA. Values are drawn from Annex~V of Brasília's Land Use and Occupation Plan (\emph{PDOT/2009}, LC 803/2009).\footnote{The approved Annex~V of the PDOT/2009 was not located; CfAM values are drawn from the preliminary 2007 draft (\emph{Minuta do Projeto de Lei -- Versão Preliminar, maio/2007}), which contains the same Annex~V structure. The ordinal ranking across RAs---which is what the cross-sectional identification exploits---is unlikely to have changed during the consolidation process.}
 
-The cross-RA variation in CfAM is substantial, as shown in Table~\ref{tab:cfam_lookup}. Six administrative regions present in the 10 km sample do not appear in Annex~V (Cruzeiro, Sudoeste/Octogonal, Jardim Botânico, Vicente Pires, Sol Nascente/Pôr do Sol, and Arniqueira); for these, values are assigned by analogy with their urbanistic characteristics and, where applicable, with the parent RA from which they were administratively carved out.\footnote{Plano Piloto also does not appear in Annex~V, as it is subject to the UNESCO-mandated preservation plan (\emph{PPCUB}) rather than the standard PDOT schedule. It is assigned a value of 2.0, consistent with the CfAM for predominantly residential zones under the PPCUB and with the area's observed low vertical development.} Results excluding these imputed values are reported alongside the main estimates as a robustness check.
+The cross-RA variation in CfAM is substantial, as shown in Table~\ref{tab:cfam_lookup}. Six administrative regions present in the 10 km sample do not appear in Annex~V (Cruzeiro, Sudoeste/Octogonal, Jardim Botânico, Vicente Pires, Sol Nascente/Pôr do Sol, and Arniqueira); for these, values are assigned by analogy with their urbanistic characteristics and, where applicable, with the parent RA from which they were administratively carved out.\footnote{Plano Piloto also does not appear in Annex~V, as it is subject to the UNESCO-mandated preservation plan (\emph{PPCUB}) rather than the standard PDOT schedule. It is assigned a value of 2.0, consistent with the CfAM for predominantly residential zones under the PPCUB and with the area's observed low vertical development. It is treated as an estimated value in the robustness check reported in Table~\ref{tab:cfam_het}.} Results excluding these imputed values are reported alongside the main estimates as a robustness check.
 
 \begin{table}[htbp]
 \centering
@@ -122,7 +122,7 @@ RA-XXXIII&Arniqueira           & 7.00 & \checkmark \\
 }}
 \begin{tablenotes}
 \scriptsize
-\item \textit{Notes:} CfAM values are the maximum floor area ratio in the most dynamically zoned category (``Vias de Atividades'' or ``Centro Urbano'') for each RA. Source: Annex~V of the PDOT/2009 (preliminary 2007 draft used as proxy; see footnote in text). Rows marked \checkmark are estimates: Plano Piloto because it is governed by the PPCUB rather than Annex~V; the remaining five because their RAs were created after the PDOT/2009 was drafted or do not appear in Annex~V. Estimated values are assigned by analogy with neighbouring RAs or parent administrative regions. Only RAs present in the 10 km estimation sample are listed.
+\item \textit{Notes:} CfAM values are the maximum floor area ratio in the most dynamically zoned category (``Vias de Atividades'' or ``Centro Urbano'') for each RA. Source: Annex~V of the PDOT/2009 (preliminary 2007 draft used as proxy; see footnote in text). Rows marked \checkmark are estimates: Plano Piloto because it is governed by the PPCUB rather than Annex~V; the remaining six because their RAs were created after the PDOT/2009 was drafted or do not appear in Annex~V. Estimated values are assigned by analogy with neighbouring RAs or parent administrative regions. The table lists all 31 RAs of the lookup; 26 of them have tracts in the 10 km estimation sample.
 \end{tablenotes}
 \end{table}
 
@@ -147,21 +147,21 @@ where $\widetilde{C}_{\text{RA}(i)} = C_{\text{RA}(i)} - \bar{C}$ is the mean-ce
 \midrule
 \multicolumn{3}{l}{\textit{Dep.\ var.: $\Delta y_i$ (log per-capita income growth, 2000--2010)}} \\[4pt]
 Fitted subway exposure ($\hat{D}_i^{(1000)}$)
-  & $0.1166^{***}$  & $0.1146^{***}$ \\
-  & $(0.0184)$      & $(0.0186)$ \\[4pt]
+  & $0.1242^{***}$  & $0.1073^{***}$ \\
+  & $(0.0204)$      & $(0.0243)$ \\[4pt]
 Fitted exposure $\times$ CfAM$_\text{RA}$ (centred)
-  & $0.0490^{***}$  & $0.0494^{***}$ \\
-  & $(0.0057)$      & $(0.0061)$ \\[4pt]
+  & $0.0532^{***}$  & $0.0505^{**}$ \\
+  & $(0.0055)$      & $(0.0206)$ \\[4pt]
 \midrule
 RA fixed effects            & Yes   & Yes   \\
 Geographic controls         & Yes   & Yes   \\
 Socioeconomic controls      & Yes   & Yes   \\
-Observations                & 1,692 & 1,555 \\
-Administrative regions      & 23    & 18 \\
+Observations                & 1,692 & 1,284 \\
+Administrative regions      & 23    & 17 \\
 RMSE                        & 0.225 & 0.227 \\
-Adjusted $R^2$              & 0.315 & 0.313 \\
-First-stage $F$ ($\hat{D}$) & 463.0 & 424.7 \\
-First-stage $F$ ($\hat{D} \times \widetilde{C}$) & 814.4 & 748.0 \\
+Adjusted $R^2$              & 0.320 & 0.318 \\
+First-stage $F$ ($\hat{D}$) & 396.2 & 139.5 \\
+First-stage $F$ ($\hat{D} \times \widetilde{C}$) & 662.9 & 132.6 \\
 Wu--Hausman $p$-value       & $<0.001$ & $<0.001$ \\
 \midrule
 Instruments & \multicolumn{2}{c}{$Z_i^{(1000)}$,\; $Z_i^{(1000)} \times \widetilde{C}_{\text{RA}(i)}$} \\
@@ -170,18 +170,18 @@ Instruments & \multicolumn{2}{c}{$Z_i^{(1000)}$,\; $Z_i^{(1000)} \times \widetil
 }}
 \begin{tablenotes}
 \scriptsize
-\item \textit{Notes:} 2SLS estimates of Equation~\eqref{eq:cfam_iv}. $\widetilde{C}_{\text{RA}(i)}$ is the mean-centred CfAM of the administrative region containing tract $i$ (sample mean: 4.75; standard deviation: 2.03). The coefficient on fitted subway exposure is therefore the estimated income effect at mean CfAM; the interaction coefficient captures how the effect changes per unit increase in CfAM. Column~(1) uses all RAs with assigned CfAM, including the six with estimated values (see Table~\ref{tab:cfam_lookup}); column~(2) restricts the sample to RAs whose CfAM is drawn directly from Annex~V of the PDOT/2009, excluding all estimated values. Standard errors clustered at the RA level are reported in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. First-stage $F$-statistics are reported separately for each endogenous variable.
+\item \textit{Notes:} 2SLS estimates of Equation~\eqref{eq:cfam_iv}. $\widetilde{C}_{\text{RA}(i)}$ is the mean-centred CfAM of the administrative region containing tract $i$ (sample mean: 4.75; standard deviation: 2.03). The coefficient on fitted subway exposure is therefore the estimated income effect at mean CfAM; the interaction coefficient captures how the effect changes per unit increase in CfAM. Column~(1) uses all RAs with assigned CfAM, including the seven with estimated values (see Table~\ref{tab:cfam_lookup}); column~(2) restricts the sample to RAs whose CfAM is drawn directly from Annex~V of the PDOT/2009, excluding all estimated values. Standard errors clustered at the RA level are reported in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. First-stage $F$-statistics are reported separately for each endogenous variable.
 \end{tablenotes}
 \end{table}
 
-Table~\ref{tab:cfam_het} presents the results. Both specifications yield a positive, precisely estimated interaction coefficient of approximately 0.049 log points per unit of CfAM. This implies that a one-standard-deviation increase in CfAM (2.03 units) is associated with an additional income gain of roughly 10 log points (approximately 10 percentage points) for subway-exposed tracts, relative to unexposed ones. Evaluated at different points of the CfAM distribution, the difference is economically large: the implied subway effect ranges from approximately 3 log points for a tract in Guará (CfAM = 3.0) to roughly 18 log points for a tract in Ceilândia (CfAM = 6.0) and 23 log points for a tract in Taguatinga (CfAM = 7.0). The result is virtually unchanged when the six RAs with estimated CfAM values are excluded (column~2), suggesting it is not driven by measurement error in those observations.
+Table~\ref{tab:cfam_het} presents the results. Both specifications yield a positive interaction coefficient of approximately 0.05 log points per unit of CfAM: 0.053 in the full sample (significant at the 1 percent level) and 0.051 with official values only (5 percent level). This implies that a one-standard-deviation increase in CfAM (2.03 units) is associated with an additional income gain of roughly 11 log points (approximately 11 percentage points) for subway-exposed tracts, relative to unexposed ones. Evaluated at different points of the CfAM distribution, the difference is economically large: the implied subway effect ranges from approximately 3 log points for a tract in Guará (CfAM = 3.0) to roughly 19 log points for a tract in Ceilândia (CfAM = 6.0) and 24 log points for a tract in Taguatinga (CfAM = 7.0). When the seven RAs with estimated CfAM values (the six above and the Plano Piloto) are excluded (column~2), the point estimate is essentially unchanged (0.051 versus 0.053), although it is estimated less precisely because the exclusion removes the Plano Piloto, the largest low-CfAM region; this suggests that the result is not driven by measurement error in the estimated values.
 
 The heterogeneity pattern is consistent with the labor-market channel established in the main analysis. Administrative regions with higher CfAM tend to be denser, commercially more active, and structurally more integrated into the metropolitan economy of the Federal District, so a given reduction in commuting cost plausibly reaches a larger pool of jobs precisely where CfAM is high. It bears emphasis that the mechanisms analysis found no sign that subway exposure increased population, households, apartment share, or urban land cover (Table~\ref{tab:sorting_tests}), which implies the heterogeneity does not operate through new physical construction induced by the subway. Rather, the CfAM gradient likely reflects pre-existing differences in economic density that the subway made easier to reach, amplifying the income gains of workers in more permissive regulatory environments.
 
 \section{OLS Estimates}
 \label{s:appendix_ols}
 
-Table~\ref{tab:ols_results} replicates the specifications of Table~\ref{tab:iv_results} using ordinary least squares (OLS) instead of 2SLS, to allow comparison of the two sets of estimates. The OLS coefficients range from 0.028 to 0.034, below the corresponding 2SLS estimates of 0.093 to 0.103. The Wu--Hausman test reported in Table~\ref{tab:iv_results} rejects the null of exogeneity in all specifications, confirming that OLS is inconsistent for the causal parameter of interest and that the gap between the two sets of estimates reflects endogeneity bias rather than sampling variation. The direction of the discrepancy---OLS below 2SLS---is consistent with negative selection into treatment conditional on the included controls and RA fixed effects, though the precise source of this selection remains outside the scope of the analysis.
+Table~\ref{tab:ols_results} replicates the specifications of Table~\ref{tab:iv_results} using ordinary least squares (OLS) instead of 2SLS, to allow comparison of the two sets of estimates. The OLS coefficients range from 0.027 to 0.035, below the corresponding 2SLS estimates of 0.099 to 0.109. The Wu--Hausman test reported in Table~\ref{tab:iv_results} rejects the null of exogeneity in all specifications, confirming that OLS is inconsistent for the causal parameter of interest and that the gap between the two sets of estimates reflects endogeneity bias rather than sampling variation. The direction of the discrepancy---OLS below 2SLS---is consistent with negative selection into treatment conditional on the included controls and RA fixed effects, though the precise source of this selection remains outside the scope of the analysis.
 
 \begin{table}[htbp]
 \centering
@@ -194,14 +194,14 @@ Table~\ref{tab:ols_results} replicates the specifications of Table~\ref{tab:iv_r
 \midrule
 \multicolumn{5}{l}{\textit{Dep.\ var.: $\Delta y_i$ (log per-capita income growth, 2000--2010)}} \\[4pt]
 Subway exposure ($D_i^{(1000)}$)
-  & 0.0338$^{**}$     & 0.0292$^{**}$     & 0.0300$^{*}$      & 0.0279$^{*}$ \\
-  & (0.0146)          & (0.0132)          & (0.0161)          & (0.0144) \\[4pt]
+  & 0.0349$^{**}$     & 0.0305$^{**}$     & 0.0284$^{*}$      & 0.0269$^{*}$ \\
+  & (0.0152)          & (0.0132)          & (0.0163)          & (0.0141) \\[4pt]
 log(per-capita income, 2000)
-  & $-$0.2826$^{***}$ & $-$0.2932$^{***}$ & $-$0.3204$^{***}$ & $-$0.3281$^{***}$ \\
-  & (0.0480)          & (0.0468)          & (0.0337)          & (0.0329) \\[4pt]
+  & $-$0.2826$^{***}$ & $-$0.2932$^{***}$ & $-$0.3675$^{***}$ & $-$0.3694$^{***}$ \\
+  & (0.0480)          & (0.0468)          & (0.0625)          & (0.0611) \\[4pt]
   \midrule
-RMSE                      & 0.224 & 0.222 & 0.221 & 0.220 \\
-Adjusted $R^2$            & 0.283 & 0.291 & 0.299 & 0.305 \\
+RMSE                      & 0.224 & 0.222 & 0.220 & 0.219 \\
+Adjusted $R^2$            & 0.284 & 0.291 & 0.304 & 0.309 \\
 Administrative Region FE  & Yes      & Yes           & Yes             & Yes          \\
 Controls                  & Baseline & + Geographic  & + Socioeconomic & All controls \\
 Observations              & 1,692    & 1,692         & 1,692           & 1,692 \\
@@ -210,6 +210,6 @@ Observations              & 1,692    & 1,692         & 1,692           & 1,692 \
 }}
 \begin{tablenotes}
 \scriptsize
-\item \textit{Notes:} Standard errors clustered at the administrative-region (RA) level in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects and use the sample restricted to census tracts within 10 km of the subway network. OLS estimates are reported for comparison with the 2SLS results in Table~\ref{tab:iv_results}. The Wu--Hausman test in Table~\ref{tab:iv_results} rejects the null of exogeneity of subway exposure in all specifications, confirming that OLS is inconsistent for the causal parameter of interest.
+\item \textit{Notes:} Standard errors clustered at the administrative-region (RA) level in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects and use the sample restricted to census tracts within 10 km of the nearest subway station. OLS estimates are reported for comparison with the 2SLS results in Table~\ref{tab:iv_results}. The Wu--Hausman test in Table~\ref{tab:iv_results} rejects the null of exogeneity of subway exposure in all specifications, confirming that OLS is inconsistent for the causal parameter of interest.
 \end{tablenotes}
 \end{table}
