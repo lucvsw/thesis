@@ -14,7 +14,7 @@ Working paper (draft) · **[Read the paper (PDF)](paper/main_paper.pdf)**
 
 ## Abstract
 
-Evidence that mass transit raises local income does not settle whether the gains reach the residents who already lived in the areas it serves, and most of it comes from advanced economies. This paper addresses this gap by studying the effect of the Brasília subway on local income. Brasília, a planned capital whose core is legally protected from densification, is an extreme case of a city where residents cannot move closer to jobs. Using census-tract data for 2000 and 2010 and an instrumental-variable strategy based on a planned and discarded subway alignment, we find that tracts exposed to the subway experienced income growth approximately 10 percent higher than comparable unexposed tracts. We find no evidence that this gain reflects physical restructuring of exposed areas or the replacement of lower-income residents by wealthier ones. In addition, both the share of household heads with positive income and the average income of those who already had it rise more in exposed tracts, consistent with a labor-market channel. Overall, the results indicate that, where moving closer to jobs is not an option, a subway can raise the income of the residents who stay.
+Evidence that mass transit raises local income does not settle whether the gains reach the residents who already lived in the areas it serves, and most of it comes from advanced economies. This paper addresses this gap by studying the effect of the Brasília subway on local income. Brasília, a planned capital whose core is legally protected from densification, is an extreme case of a city where residents cannot move closer to jobs. Using census-tract data for 2000 and 2010 and an instrumental-variable strategy based on a planned and discarded subway alignment, we find that tracts exposed to the subway experienced income growth approximately 10 to 11 percent higher than comparable unexposed tracts. We find no evidence that this gain reflects physical restructuring of exposed areas or the replacement of lower-income residents by wealthier ones. In addition, both the share of household heads with positive income and the average income of those who already had it rise more in exposed tracts, consistent with a labor-market channel. Overall, the results indicate that, where moving closer to jobs is not an option, a subway can raise the income of the residents who stay.
 
 ## The paper in brief
 
@@ -23,7 +23,7 @@ Evidence that mass transit raises local income does not settle whether the gains
 **Approach.**
 
 - **Unit and outcome.** Census tracts of the Federal District. The outcome is the change in log per-capita income between the 2000 and 2010 censuses. Per-capita income is the monthly income declared by household heads divided by the number of residents (the 2000 Census does not publish total income for all residents by tract); heads are more likely than other household members to be long-term residents of the tract.
-- **Exposure.** A tract is exposed if its centroid lies within 1 km of a subway station.
+- **Exposure.** A tract is exposed if its centroid lies within 1 km of a subway station that was open when the 2010 Census was taken (24 stations).
 - **Identification.** Two-stage least squares. Subway placement is instrumented with proximity to a subway alignment that was planned in 1986–87 by the Mauá Institute of Technology (IMT) and then discarded, with administrative-region fixed effects, standard errors clustered by region, and a sample of tracts within 10 km of a station.
 - **Robustness.** Sample radius, distance threshold, continuous exposure measures, tract-level clustering and Conley spatial standard errors.
 - **Mechanisms.** Two tests rule out alternative explanations (physical restructuring of the area; demographic sorting). A third gives a positive, proxy-based argument for a labor-market channel.
@@ -38,19 +38,19 @@ Evidence that mass transit raises local income does not settle whether the gains
 
 | | (1) | (2) | (3) | (4) |
 |---|:-:|:-:|:-:|:-:|
-| Effect of subway exposure on income growth, 2000–2010 (2SLS) | 0.1031* | 0.0935* | 0.1012** | 0.0952** |
-| Standard error | (0.0498) | (0.0473) | (0.0467) | (0.0439) |
+| Effect of subway exposure on income growth, 2000–2010 (2SLS) | 0.1087** | 0.0986* | 0.1066** | 0.1009** |
+| Standard error | (0.0522) | (0.0497) | (0.0482) | (0.0450) |
 | Controls | baseline income | + geography | + socioeconomic | all |
-| First-stage *F*-statistic | 932 | 923 | 839 | 841 |
+| First-stage *F*-statistic | 816 | 806 | 733 | 734 |
 
-*N* = 1,692 tracts, administrative-region fixed effects in all columns, standard errors clustered by region. \* *p* < 0.1, \*\* *p* < 0.05 (Table 2 of the paper). The estimate in column 4 is 0.095 log points, that is, income growth about 10 percent higher in exposed tracts (e^0.095 − 1). The estimates stay positive and of similar magnitude across sample radii of 5–20 km, distance thresholds of 500–2,500 m, three continuous exposure measures, tract-level clustering and Conley standard errors (Tables 3–7). Because the instrument is built from the distance to the planned *line* rather than to planned stations, the estimates are best read as a lower bound.
+*N* = 1,692 tracts, administrative-region fixed effects in all columns, standard errors clustered by region. \* *p* < 0.1, \*\* *p* < 0.05 (Table 2 of the paper). The estimate in column 4 is 0.101 log points, that is, income growth about 10.6 percent higher in exposed tracts (e^0.101 − 1). The estimates stay positive and of similar magnitude across sample radii of 5–20 km, distance thresholds of 500–2,500 m, three continuous exposure measures, tract-level clustering and Conley standard errors (Tables 3–7). Because the instrument is built from the distance to the planned *line* rather than to planned stations, the estimates are best read as a lower bound.
 
 ### Why the gain is not about who lives there
 
 | Hypothesis | Outcomes tested | Result |
 |---|---|---|
-| **H1. Urban structure** (physical densification drives the gain) | Population, households, apartment share, urban land cover | No sign of densification: population growth is, if anything, lower in exposed tracts (10% level); no significant effect on households, apartment share or urban land cover |
-| **H2. Demographic composition** (richer households replace poorer ones) | Large-family share, head illiteracy, high-income head share, elderly share, working-age share | No coherent pattern; the only significant coefficient (elderly share, 5% level) has the opposite sign to sorting |
+| **H1. Urban structure** (physical densification drives the gain) | Population, households, apartment share, urban land cover | No sign of densification: population and household growth are, if anything, lower in exposed tracts (10% level); no significant effect on apartment share or urban land cover |
+| **H2. Demographic composition** (richer households replace poorer ones) | Large-family share, head illiteracy, high-income head share, elderly share, working-age share | No coherent pattern; the only significant coefficient (elderly share, 10% level) has the opposite sign to sorting |
 | **H3. Labor-market channel** (proxy for improved job access) | Share of household heads with positive income (extensive margin); average income of heads with income (intensive margin) | Both rise in exposed tracts (5% level) |
 
 H1 and H2 rule out alternative explanations. H3 adds a positive argument for the same conclusion. Job access itself is not measured, so H3 is a proxy-based test and is read as *consistent with* real income gains for incumbent residents (Tables 8–10).
