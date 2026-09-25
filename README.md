@@ -83,14 +83,16 @@ The analysis is an R pipeline built with [`{targets}`](https://docs.ropensci.org
 **Run.** Open `thesis.Rproj` (or set the working directory to the repository root) and run:
 
 ```r
-# Everything except the three targets that need the external MapBiomas rasters
-# (see data/README.md); takes a few minutes.
-targets::tar_make(names = !c(census_urbanization, urbanization_sample, results_urbanization))
+# 1. Fetch the MapBiomas rasters (Federal District window only, about 2 MB in total)
+source("data/raw/mapbiomas/download_mapbiomas.R")
+
+# 2. Run the whole pipeline (takes a few minutes)
+targets::tar_make()
 
 targets::tar_read(results_main)   # e.g., Table 2
 ```
 
-If you download the MapBiomas rasters, plain `targets::tar_make()` builds all targets. To rebuild the paper: `cd paper && latexmk -pdf main_paper.tex`.
+To run without the MapBiomas rasters, skip step 1 and build everything else with `targets::tar_make(names = !c(census_urbanization, urbanization_sample, results_urbanization))`. To rebuild the paper: `cd paper && latexmk -pdf main_paper.tex`.
 
 **Where each item of the paper comes from.**
 

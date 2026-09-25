@@ -30,11 +30,13 @@ The census tables are the unmodified files distributed by IBGE, under IBGE's ori
 
 ## MapBiomas rasters (external)
 
-The urban land-cover outcome (Table 8, column 4 of the paper) uses MapBiomas rasters, which are too large for this repository. To reproduce that column:
+The urban land-cover outcome (Table 8, column 4 of the paper) uses MapBiomas Collection 9 land-cover rasters (class 24, urban infrastructure). The national rasters (about 1 GB per year) are not versioned. Run
 
-1. Go to [mapbiomas.org](https://mapbiomas.org) and open Collection 9, class **Urban area (24)**.
-2. Download the years **2000** and **2010**, clipped to the Federal District.
-3. Save them as `data/raw/mapbiomas/2000.tif` and `data/raw/mapbiomas/2010.tif`.
+```r
+source("data/raw/mapbiomas/download_mapbiomas.R")
+```
+
+from the repository root to read only the Federal District window from the public MapBiomas bucket (about 1 MB per year) and save it as `data/raw/mapbiomas/2000.tif` and `2010.tif`. The files come from `https://storage.googleapis.com/mapbiomas-public/initiatives/brasil/collection_9/lclu/coverage/brasil_coverage_<year>.tif`.
 
 ## Analysis dataset (`data/processed/`)
 
