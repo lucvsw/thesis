@@ -26,7 +26,7 @@ Our analysis focuses on census tracts located within a 10 km radius of the neare
     \label{fig:1}
 \end{figure}
 
-Table~\ref{tab:descriptive} reports summary statistics separately for exposed ($\leq 1$ km from the nearest station) and non-exposed ($>1$ km) census tracts in 2000 and 2010.\footnote{Some demographic and educational composition variables were not reported in the 2010 Census extracts used in this study. This is not a concern for our empirical strategy, since these variables enter the regressions only as baseline (2000) controls.} Of the 1,863 tracts within 10 km of the network, 593 (32\%) are classified as exposed and 1,270 (68\%) as non-exposed. In 2000, exposed tracts had a higher mean per capita income (R\$618 vs.\ R\$470) and a lower illiteracy rate (5.5\% vs.\ 6.9\%), consistent with subway stations being located in relatively established urban areas. Both groups experienced substantial nominal income growth between 2000 and 2010 (exposed: R\$618 to R\$1{,}388; non-exposed: R\$470 to R\$1{,}034), reflecting the broad-based income expansion observed throughout Brazil in this period. The raw difference in growth rates between the two groups is modest, which highlights why a causal identification strategy is necessary: unconditional comparisons confound the effect of subway access with pre-existing differences in tract characteristics and common income trends.
+Table~\ref{tab:descriptive} reports summary statistics separately for exposed ($\leq 1$ km from the nearest station) and non-exposed ($>1$ km) census tracts in 2000 and 2010.\footnote{Some demographic and educational composition variables were not reported in the 2010 Census extracts used in this study. This is not a concern for our empirical strategy, since these variables enter the regressions only as baseline (2000) controls.} Of the 1,860 tracts within 10 km of the network in 2000, 592 (32\%) are classified as exposed and 1,268 (68\%) as non-exposed. In 2000, exposed tracts had a higher mean per capita income (R\$618 vs.\ R\$470) and a lower illiteracy rate (5.5\% vs.\ 6.9\%), consistent with subway stations being located in relatively established urban areas. Both groups experienced substantial nominal income growth between 2000 and 2010 (exposed: R\$618 to R\$1{,}388; non-exposed: R\$470 to R\$1{,}035), reflecting the broad-based income expansion observed throughout Brazil in this period. The raw difference in growth rates between the two groups is modest, which highlights why a causal identification strategy is necessary: unconditional comparisons confound the effect of subway access with pre-existing differences in tract characteristics and common income trends.
 
 \begin{table}[!h]
 \centering
@@ -38,32 +38,32 @@ Table~\ref{tab:descriptive} reports summary statistics separately for exposed ($
  & \multicolumn{2}{c}{Exposed ($\leq$ 1 km)} & \multicolumn{2}{c}{Non-exposed ($>$ 1 km)} \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}
  & 2000 & 2010 & 2000 & 2010 \\
-Number of tracts & 593 & 593 & 1,270 & 1,270 \\
+Number of tracts & 592 & 618 & 1,268 & 1,269 \\
 \midrule
 \multicolumn{5}{l}{\textit{Panel A: Outcome}} \\[2pt]
-Per capita income (R\$) & 618 & 1{,}388 & 470 & 1{,}034 \\
- & (568) & (1{,}059) & (520) & (1{,}045) \\[4pt]
+Per capita income (R\$) & 618 & 1{,}388 & 470 & 1{,}035 \\
+ & (569) & (1{,}060) & (521) & (1{,}046) \\[4pt]
 \midrule
 \multicolumn{5}{l}{\textit{Panel B: Geographic controls}} \\[2pt]
-Distance to CBD (meters) & 16{,}373 & --- & 17{,}237 & --- \\
- & (7{,}681) &  & (8{,}516) &  \\[4pt]
-Distance to nearest road (meters) & 1{,}141 & --- & 940 & --- \\
- & (816) &  & (719) &  \\[4pt]
+Distance to CBD (meters) & 16{,}367 & --- & 17{,}234 & --- \\
+ & (7{,}686) &   & (8{,}522) &  \\[4pt]
+Distance to nearest road (meters) & 1{,}141 & --- & 941 & --- \\
+ & (816) &   & (719) &  \\[4pt]
 \midrule
 \multicolumn{5}{l}{\textit{Panel C: Socioeconomic baseline (2000)}} \\[2pt]
-Population & 706 & 712 & 815 & 1{,}024 \\
- & (288) & (974) & (298) & (1{,}706) \\[4pt]
+Population & 706 & 712 & 816 & 1{,}024 \\
+ & (289) & (975) & (298) & (1{,}708) \\[4pt]
 Share of illiterate residents & 0.055 & --- & 0.069 & --- \\
- & (0.055) &  & (0.050) &  \\[4pt]
+ & (0.055) &   & (0.050) &  \\[4pt]
 Share with college degree & 0.015 & --- & 0.012 & --- \\
- & (0.024) &  & (0.025) &  \\[4pt]
+ & (0.024) &   & (0.025) &  \\[4pt]
 Share aged 65 or older & 0.049 & --- & 0.034 & --- \\
- & (0.036) &  & (0.025) &  \\[4pt]
+ & (0.036) &   & (0.025) &  \\[4pt]
 \bottomrule
 \end{tabular}%
 }
 \scriptsize
 \begin{flushleft}
-\textit{Note}: Standard deviations in parentheses. Exposed tracts lie within 1 km of the nearest subway station; non-exposed tracts lie between 1 km and 10 km. Geographic and socioeconomic variables enter the regressions as 2000 baseline characteristics. Statistics for 2010 are not reported for variables not available in the 2010 Census extracts.
+\textit{Note}: Standard deviations in parentheses. Exposed tracts lie within 1 km of the nearest subway station; non-exposed tracts lie between 1 km and 10 km. Geographic and socioeconomic variables enter the regressions as 2000 baseline characteristics. Statistics for 2010 are not reported for variables not available in the 2010 Census extracts. The number of tracts differs between the two census years because 63 of the 1,905 tracts within 10 km appear in only one of the censuses (45 only in 2010, 18 only in 2000); the regressions use tracts observed in both years.
 \end{flushleft}
 \end{table}
