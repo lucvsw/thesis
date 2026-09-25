@@ -4,9 +4,10 @@
 # =============================================================================
 #
 # Goal: check whether the subway caused relocation of people and/or changes
-# in the composition of households in the areas near stations. Null results
-# reinforce that the effect on income (6_main_regressions.R) reflects in situ
-# growth, and not sorting of wealthier residents.
+# in the composition of households in the areas near stations. If population,
+# households and the apartment share do not rise in exposed tracts, the effect
+# on income (6_main_regressions.R) is not driven by densification or by sorting
+# of wealthier residents.
 #
 # Outcomes:
 #   (A) dlog_pop        = log(pop_2010) - log(pop_2000)

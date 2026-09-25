@@ -26,6 +26,8 @@ data/
 | Urban land cover | not included | MapBiomas, see below |
 | Maximum floor-area ratio (CfAM) by administrative region | values are written in `R/18_heterogeneity_cfam.R` | Annex V of the PDOT/2009 (Complementary Law 803/2009) |
 
+The station file has 29 stations (27 in operation and 2 under construction). Only the 24 that were open when the 2010 Census was taken (August 2010) enter the exposure measure: Onoyama and 104 Sul never opened, Estrada Parque opened in January 2020, and 106 Sul and 110 Sul in September 2020 (`R/4_new_variables.R`).
+
 The census tables are the unmodified files distributed by IBGE, under IBGE's original (Portuguese) file names: *Basico* = basic tract information, *Domicilio* = households, *Instrucao* = education, *Morador* = residents, *Pessoa* = persons, *Responsavel* = household heads. The shapefiles were renamed from their original Portuguese names (`estacao_de_metro`, `linha_de_metro`, `projeto_metro`, `regioes_administrativas`, `rodovias`); their attribute fields keep the source names and are renamed to English when imported by `R/1_shapefiles.R`.
 
 ## MapBiomas rasters (external)
@@ -40,7 +42,7 @@ from the repository root to read only the Federal District window from the publi
 
 ## Analysis dataset (`data/processed/`)
 
-`census_final` is the target of the same name in the pipeline (`_targets.R`): 5,358 rows (census tracts observed in 2000 and 2010, after harmonizing the two tract maps, see Appendix A of the paper) and 130 columns. Because geography and exposure do not vary over time, use one year of rows (for example `year == 2010`) for tract-level analyses. Three tracts fall outside every administrative region; they carry `ra_id = "outsideRA"`. The main variables are:
+`census_final` is the target of the same name in the pipeline (`_targets.R`): 5,358 rows (census tracts observed in 2000 and 2010, after harmonizing the two tract maps, see Appendix A of the paper) and 130 columns. The 2000 and 2010 rows of a tract carry slightly different polygons (the 2010 tracts are merged to match the 2000 map), so for 21 tracts the exposure indicator differs between the two rows; the regressions use the 2010 row. For tract-level analyses use one year of rows (for example `year == 2010`). Three tracts fall outside every administrative region; they carry `ra_id = "outsideRA"`. The main variables are:
 
 | Variable | Description |
 |---|---|
@@ -48,7 +50,7 @@ from the repository root to read only the Federal District window from the publi
 | `year` | Census year (2000 or 2010) |
 | `income_per_capita` | Per-capita income, R$ (nominal): monthly income declared by household heads divided by residents |
 | `dlog_income_per_capita` | Outcome: log(income 2010) − log(income 2000); defined on the 2010 rows |
-| `dist_station` | Distance (m) from the tract centroid to the nearest subway station |
+| `dist_station` | Distance (m) from the tract centroid to the nearest of the 24 subway stations open at the 2010 Census |
 | `dist_planned` | Distance (m) from the tract centroid to the nearest segment of the planned IMT alignment |
 | `dummy_500m` … `dummy_2500m` | Exposure *D*: 1 if `dist_station` is at most 500, 1,000, 1,500, 2,000 or 2,500 m |
 | `dummyp_500m` … `dummyp_2500m` | Instrument *Z*: 1 if `dist_planned` is at most the same thresholds |
@@ -56,7 +58,7 @@ from the repository root to read only the Federal District window from the publi
 | `dummy_subway_5km` … `dummy_subway_20km` | Estimation-sample indicators: 1 if `dist_station` is at most 5, 7.5, 10, 12.5, 15 or 20 km (the paper's baseline sample is 10 km) |
 | `ra_id` | Administrative region (RA) of the tract, used for fixed effects and clustering |
 | `dummy_RA_*` | Administrative-region indicators |
-| `pop`, `share_illiterate`, `share_over_65`, `share_college_complete` | Population, illiteracy share, share aged 65 or older, and higher-education share (baseline controls, 2000 values) |
+| `pop`, `share_illiterate`, `share_over_65`, `share_college_complete` | Population, illiteracy share (persons aged 5 or older who cannot read, over residents), share aged 65 or older, and share of household heads with 15 or more years of study, that is, completed higher education (baseline controls, 2000 values) |
 | `dist_cbd`, `dist_highway` | Distances (m) to the central business district and to the nearest highway (baseline controls) |
 | `households`, `apartments`, `share_apartments` | Households, apartments, and apartment share (urban-structure outcomes) |
 | `share_women`, `share_large_family`, `share_illiterate_heads`, `share_high_income`, `share_working_age` | Composition outcomes (Hypothesis 2) |

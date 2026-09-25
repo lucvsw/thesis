@@ -48,7 +48,9 @@ join_tables_sf_2000 <- function(census_sf_2000_full, data_list) {
     left_join(
       census_2000_head %>%
         dplyr::transmute(
-          Cod_setor, V0595, V0611, V0577, V0402, V0509,
+          Cod_setor, V0611, V0402, V0509,
+          # heads with 15 or more years of study (completed higher education)
+          college_complete = as.numeric(V0595) + as.numeric(V0596) + as.numeric(V0597),
           high_income_heads = as.numeric(V0608) + as.numeric(V0609) + as.numeric(V0610)
         ),
       by = c("code_tract" = "Cod_setor")) %>%
@@ -91,7 +93,6 @@ join_tables_sf_2000 <- function(census_sf_2000_full, data_list) {
       heads_positive_income = Var05,
       mean_income_positive_heads = Var06,
       pop = Var12,
-      higher_ed = V0595,
       no_income = V0611,
       age_65 = V1461,
       age_70 = V1462,
@@ -99,7 +100,6 @@ join_tables_sf_2000 <- function(census_sf_2000_full, data_list) {
       age_80 = V1464,
       illiterate = V2249,
       apartments = V0007,
-      college_complete = V0577,
       heads_total = V0402,
       heads_literate = V0509
     ) %>%

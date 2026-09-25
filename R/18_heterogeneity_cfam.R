@@ -8,7 +8,8 @@
 #             instrumented by dummyp_1000m × cfam_max_ra.
 #             The CfAM main effect is absorbed by the RA FE.
 # Source: PDOT/2009 (LC 803/2009; values taken from Annex V).
-#        Six RAs without a value in Annex V receive estimates — see cfam_estimated.
+#        The Plano Piloto (governed by the PPCUB) and six RAs without a value in Annex V
+#        receive estimates — see cfam_estimated.
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -21,7 +22,7 @@
 # -----------------------------------------------------------------------------
 cfam_lookup <- tibble::tribble(
   ~ra_id, ~cfam_max_ra, ~cfam_estimated,
-  "1",   2.00, FALSE,  # Plano Piloto   — UNESCO heritage listing/PPCUB; estimate for the most permissive zones
+  "1",   2.00, TRUE,   # Plano Piloto   — UNESCO heritage listing/PPCUB; estimate for the most permissive zones
   "2",   3.00, FALSE,  # Gama
   "3",   7.00, FALSE,  # Taguatinga
   "4",   3.00, FALSE,  # Brazlândia

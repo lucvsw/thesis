@@ -14,7 +14,6 @@ prepare_regression_sample <- function(census_final) {
     filter(year == 2000) %>%
     st_drop_geometry() %>%
     select(code_tract,
-           share_higher_ed,
            share_illiterate,
            share_over_65,
            dist_cbd,

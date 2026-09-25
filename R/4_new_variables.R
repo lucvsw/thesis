@@ -1,5 +1,12 @@
 # Join the census with the subway shapefiles to create subway-exposure dummies and RA dummies
 new_variables <- function(census_sf_harmonized, lines_sf, planned_alignment_sf, stations_sf, RAs_sf, highways_sf) {
+  # Stations that were not open when the 2010 Census was taken (August 2010) do not count as
+  # exposure: Onoyama and 104 Sul (never opened), Estrada Parque (January 2020), 106 Sul and
+  # 110 Sul (September 2020). Names as they appear in the source shapefile.
+  stations_not_open_by_2010 <- c("ESTAÇÃO ONOYAMA", "ESTAÇÃO 104 SUL", "ESTAÇÃO ESTRADA PARQUE",
+                                 "ESTAÇÃO 106 SUL", "ESTAÇÃO 110 SUL")
+  stations_sf <- stations_sf %>% filter(!station_name %in% stations_not_open_by_2010)
+
   # 1) Reproject all objects to a metric CRS (UTM zone 23S)
   census_sf        <- st_transform(census_sf_harmonized, 32723)
   lines_proj  <- st_transform(lines_sf,        32723)
@@ -60,7 +67,6 @@ new_variables <- function(census_sf_harmonized, lines_sf, planned_alignment_sf, 
       ## demographic counts / shares
       over_65               = rowSums(across(c(age_65, age_70, age_75, age_80)), na.rm = TRUE),
       share_over_65          = over_65 / pop,
-      share_higher_ed          = higher_ed / households,
       share_college_complete = college_complete / households,
       share_illiterate      = illiterate / pop,
       employed            = households - no_income,
