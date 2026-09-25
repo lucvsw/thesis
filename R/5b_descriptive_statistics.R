@@ -15,8 +15,9 @@ descriptive_statistics_table <- function(census_final) {
   d10_e <- smpl %>% filter(year == 2010, dummy_1000m == 1)
   d10_n <- smpl %>% filter(year == 2010, dummy_1000m == 0)
 
-  N_e <- nrow(d00_e)
-  N_n <- nrow(d00_n)
+  # Number of tracts by exposure group and census year
+  n00_e <- nrow(d00_e); n00_n <- nrow(d00_n)
+  n10_e <- nrow(d10_e); n10_n <- nrow(d10_n)
 
   # Returns c(mean_str, "(sd_str)") for a numeric vector
   ms <- function(x, f = "%.0f") {
@@ -47,7 +48,7 @@ descriptive_statistics_table <- function(census_final) {
     " & \\multicolumn{2}{c}{Exposed ($\\leq$ 1 km)} & \\multicolumn{2}{c}{Non-exposed ($>$ 1 km)} \\\\",
     "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}",
     " & 2000 & 2010 & 2000 & 2010 \\\\",
-    paste0("Number of tracts & ", N_e, " & ", N_e, " & ", N_n, " & ", N_n, " \\\\"),
+    paste0("Number of tracts & ", n00_e, " & ", n10_e, " & ", n00_n, " & ", n10_n, " \\\\"),
     "\\midrule",
     "\\multicolumn{5}{l}{\\textit{Panel A: Outcome}} \\\\[2pt]",
     r2("Per capita income (R\\$)",

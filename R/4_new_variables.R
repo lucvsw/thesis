@@ -777,10 +777,20 @@ add_cfa_coefficients <- function(census_sf_clean) {
   )
   
   
+  # A few tracts are listed more than once above, with identical or conflicting values.
+  # Following the rule described in the comments, keep the lowest basic and the highest
+  # maximum coefficient per tract, so that the join below does not duplicate census rows.
+  coef_df <- coef_df %>%
+    group_by(code_tract) %>%
+    summarise(cfa_b = min(cfa_b), cfa_m = max(cfa_m), .groups = "drop")
+
   # Join by code_tract
   census_sf_clean <- census_sf_clean %>%
     left_join(coef_df, by = "code_tract")
-  
+
+  # Each tract must appear once per census year
+  stopifnot(!anyDuplicated(st_drop_geometry(census_sf_clean)[, c("code_tract", "year")]))
+
   return(census_sf_clean)
 #  Basic coefficient (use the lowest):
 #   The basic coefficient defines the "free" right to build, without paying an onerous grant. Adopting the lowest value in the census tract is a conservative and prudent way of reflecting the most severe restriction on urban occupation imposed within that territory. This avoids overestimating the densification allowed in areas with predominantly low-density residential uses.
