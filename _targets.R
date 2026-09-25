@@ -1,12 +1,21 @@
-library(targets) 
+# =============================================================================
+# _targets.R — analysis pipeline for
+# "Subways and Local Income Growth: Evidence from Brasília"
+#
+#   Run everything:      targets::tar_make()
+#   Read a result:       targets::tar_read(<target_name>)
+#
+# Functions live in R/ (numbered by pipeline stage). See README.md for the map
+# between targets and the tables/figures of the paper.
+# =============================================================================
+library(targets)
 
-# Opções target:
+# targets options:
 tar_option_set(
-  packages = c("httr", "sf", "ggplot2", "geobr", "readxl", "dplyr", "readr", "units", "tidyr", "AER", "fixest", "magrittr", "here", "terra", "censobr", "arrow"), # Pacotes.
-  format = "rds", 
+  packages = c("httr", "sf", "ggplot2", "geobr", "readxl", "dplyr", "readr", "units", "tidyr", "AER", "fixest", "magrittr", "here", "terra", "spdep"), # Packages.
+  format = "rds",
 )
 
-tar
 tar_source(
   files = list.files("R", pattern = "\\.R$", full.names = TRUE),
   envir = targets::tar_option_get("envir"),
@@ -15,48 +24,67 @@ tar_source(
 
 # Target list:
 list(
-  tar_target(estacoes_sf, get_estacoes_sf()),
-  tar_target(linhas_sf, get_linhas_sf()),
-  tar_target(projeto_metro_sf, get_projeto()),
+  tar_target(stations_sf, get_stations_sf()),
+  tar_target(lines_sf, get_lines_sf()),
+  tar_target(planned_alignment_sf, get_planned_alignment()),
   tar_target(RAs_sf, get_RAs()),
-  tar_target(rodovias_sf, get_rodovias_sf()),
-  tar_target(censo_sf_2000_completo, get_censo_sf_2000()),
-  tar_target(censo_sf_2010, get_censo_sf_2010()),
-  tar_target(censo_2000_DFs, get_censo_2000_DF()),
-  tar_target(raca_2000_DF, get_raca_2000_DF()),
-  tar_target(censo_2000_completo, unir_dados_sf_2000(censo_sf_2000_completo, censo_2000_DFs, raca_2000_DF)),
-  tar_target(censo_2010_DFs, get_censo_2010_DF()),
-  tar_target(censo_2010_completo, unir_dados_sf_2010(censo_sf_2010, censo_2010_DFs, censo_2000_completo)),
-  tar_target(censo_para_compatibilizar, preparar_para_compatibilizar(censo_2000_completo, censo_2010_completo)),
-  tar_target(censo_compatibilizado, uniao_setores(censo_para_compatibilizar)),
-  tar_target(censo_com_novas_variaveis, novas_variaveis(censo_compatibilizado, linhas_sf, projeto_metro_sf, estacoes_sf, RAs_sf, rodovias_sf)),
-  tar_target(duplicatas_excluidas, excluir_duplicatas(censo_com_novas_variaveis)),
-  tar_target(censo_variacoes, criar_variacoes(duplicatas_excluidas)),
-  tar_target(censo_final, criar_coeficientes(censo_variacoes)),
-  tar_target(tabela_descritiva, tabela_estatisticas_descr(censo_final)),
-  tar_target(resultados_importancia_covariaveis, analise_importancia_covariaveis(censo_final)),
-  tar_target(amostra_regressoes, preparar_amostra_regressoes(censo_final)),
-  tar_target(resultados_regressoes, rodar_regressoes(amostra_regressoes)),
-  tar_target(resultados_robustez_amostragem, robustez_amostragem(amostra_regressoes)),
-  tar_target(resultados_robustez_threshold, robustez_threshold(amostra_regressoes)),
-  tar_target(resultados_robustez_intensidade, robustez_intensidade(amostra_regressoes)),
+  tar_target(highways_sf, get_highways_sf()),
 
-  # Heterogeneidade por RA (10_heterogeneidade_RAs.R)
-  tar_target(resultados_heterog_RAs,  rodar_heterogeneidade_RAs(amostra_regressoes)),
-  tar_target(resultados_iv_por_RA,    rodar_iv_por_RA(amostra_regressoes)),
+  # Descriptive figure of the subway system (Section "The Brasília Subway System")
+  tar_target(
+    subway_system_map,
+    generate_subway_system_map(stations_sf, lines_sf, RAs_sf),
+    format = "file"
+  ),
 
-  # Sorting: população, domicílios, renda por domicílio, prop. apartamentos (11_sorting.R)
-  tar_target(resultados_populacao,        rodar_regressoes_populacao(amostra_regressoes)),
-  tar_target(resultados_domicilios,       rodar_regressoes_domicilios(amostra_regressoes, censo_final)),
-  tar_target(resultados_renda_domicilio,  rodar_regressoes_renda_domicilio(amostra_regressoes, censo_final)),
-  tar_target(resultados_prop_apt,         rodar_regressoes_prop_apartamentos(amostra_regressoes, censo_final)),
+  tar_target(census_sf_2000_full, get_census_sf_2000()),
+  tar_target(census_sf_2010, get_census_sf_2010()),
+  tar_target(census_tables_2000, get_census_tables_2000()),
+  tar_target(census_2000_full, join_tables_sf_2000(census_sf_2000_full, census_tables_2000)),
+  tar_target(census_tables_2010, get_census_tables_2010()),
+  tar_target(census_2010_full, join_tables_sf_2010(census_sf_2010, census_tables_2010, census_2000_full)),
+  tar_target(census_to_harmonize, prepare_for_harmonization(census_2000_full, census_2010_full)),
+  tar_target(census_harmonized, harmonize_tracts(census_to_harmonize)),
+  tar_target(census_with_new_variables, new_variables(census_harmonized, lines_sf, planned_alignment_sf, stations_sf, RAs_sf, highways_sf)),
+  tar_target(duplicates_dropped, drop_duplicates(census_with_new_variables)),
+  tar_target(census_changes, create_changes(duplicates_dropped)),
+  tar_target(census_final, add_cfa_coefficients(census_changes)),
+  tar_target(descriptive_table, descriptive_statistics_table(census_final)),
+  tar_target(results_covariate_importance, covariate_importance_analysis(census_final)),
+  tar_target(regression_sample, prepare_regression_sample(census_final)),
+  
+  # Main results
+  tar_target(results_main,     run_regressions(regression_sample)),
+  tar_target(results_ols, run_regressions_ols(regression_sample)),
+  tar_target(results_robustness_sample_radius, robustness_sample_radius(regression_sample)),
+  tar_target(results_robustness_threshold, robustness_threshold(regression_sample)),
+  tar_target(results_robustness_intensity, robustness_intensity(regression_sample)),
+  tar_target(results_robustness_clustering,  robustness_clustering(regression_sample)),
+  tar_target(results_robustness_conley,      robustness_conley(regression_sample)),
 
-  # Urbanização MapBiomas (4b + 12)
-  tar_target(censo_urbanizacao,              adicionar_prop_urbana(censo_final)),
-  tar_target(amostra_urbanizacao,            preparar_amostra_urbanizacao(censo_urbanizacao)),
-  tar_target(resultados_regressoes_urbanizacao, rodar_regressoes_urbanizacao(amostra_urbanizacao)),
+  # Heterogeneity by RA (10_heterogeneity_by_RA.R)
+  tar_target(results_heterogeneity_RA,  run_heterogeneity_by_RA(regression_sample)),
+  tar_target(results_iv_by_RA,    run_iv_by_RA(regression_sample)),
 
-  # Hipótese 2 — Efeito de composição / gentrificação (13)
-  tar_target(amostra_mecanismos,             preparar_amostra_mecanismos(censo_final)),
-  tar_target(resultados_regressoes_mecanismos, rodar_regressoes_mecanismos(amostra_mecanismos))
+  # Sorting: population, households, income per household, apartment share (11_sorting.R)
+  tar_target(results_population,        run_regressions_population(regression_sample)),
+  tar_target(results_households,       run_regressions_households(regression_sample, census_final)),
+  tar_target(results_income_per_household,  run_regressions_income_per_household(regression_sample, census_final)),
+  tar_target(results_apartment_share,         run_regressions_apartment_share(regression_sample, census_final)),
+
+  # MapBiomas urbanization (4b + 12)
+  tar_target(census_urbanization,              add_urban_share(census_final)),
+  tar_target(urbanization_sample,            prepare_urbanization_sample(census_urbanization)),
+  tar_target(results_urbanization, run_regressions_urbanization(urbanization_sample)),
+
+  # Hypothesis 2 — Composition / gentrification effect (13)
+  tar_target(composition_sample,             prepare_composition_sample(census_final)),
+  tar_target(results_composition, run_regressions_composition(composition_sample)),
+
+  # Labor-market mechanism — extensive and intensive margins (17)
+  tar_target(labor_market_sample,          prepare_labor_market_sample(census_final)),
+  tar_target(results_labor_market,       run_regressions_labor_market(labor_market_sample)),
+
+  # Heterogeneity by land-use permissiveness — RA's maximum CfAM (18)
+  tar_target(results_heterogeneity_cfam,           run_heterogeneity_cfam(regression_sample))
   )

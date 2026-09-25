@@ -1,71 +1,75 @@
-# Script para carregar os shapefiles a serem utilizados
-## O sistema de referência espacial (CRS) utilizado é SIRGAS 2000 / UTM zone 23S (EPSG: 31983), que mede a distância em metros
+# Script to load the shapefiles used in the analysis
+## The coordinate reference system (CRS) is SIRGAS 2000 / UTM zone 23S (EPSG: 31983), which measures distances in meters
 
-# Carregar estações de metrô
-get_estacoes_sf <- function() {
-  estacoes_sf <- st_read(here("shapefiles", "estacao_de_metro", "estacao_de_metro.shp"))
-  return(estacoes_sf)
+# Load subway stations
+# (the source shapefile uses Portuguese field names; they are renamed to English here)
+get_stations_sf <- function() {
+  stations_sf <- st_read(here("data", "raw", "shapefiles", "subway_stations", "subway_stations.shp")) %>%
+    rename(station_id = mto_num_es, station_name = mto_nome_e, status = mto_situac, remarks = mto_observ)
+  return(stations_sf)
 }
 
-# Carregar linhas de metro
-get_linhas_sf <- function() {
-  linhas_sf <- st_read(here("shapefiles", "linha_de_metro", "linha_de_metro.shp"))
-  return(linhas_sf)
+# Load subway lines
+get_lines_sf <- function() {
+  lines_sf <- st_read(here("data", "raw", "shapefiles", "subway_lines", "subway_lines.shp"))
+  return(lines_sf)
 }
 
-# Carregar projeto descartado do metro
-get_projeto <- function() {
-  projeto_metro_sf <- st_read(here("shapefiles", "projeto_metro", "POLYLINE.shp"))
-  return(projeto_metro_sf)
+# Load the planned (discarded) subway alignment
+get_planned_alignment <- function() {
+  planned_alignment_sf <- st_read(here("data", "raw", "shapefiles", "planned_alignment", "planned_alignment.shp"))
+  return(planned_alignment_sf)
 }
 
-# Carregar projeto descartado do metro
+# Load administrative regions (RAs)
+# (the source shapefile uses Portuguese field names; they are renamed to English here)
 get_RAs <- function() {
-  RAs_sf <- st_read(here("shapefiles", "regioes_administrativas", "regioes_administrativas.shp"))
+  RAs_sf <- st_read(here("data", "raw", "shapefiles", "administrative_regions", "administrative_regions.shp")) %>%
+    rename(ra_id = ra_cira, ra_code = ra_codigo, ra_name = ra_nome, ra_area_km2 = ra_areakm2)
   return(RAs_sf)
 }
 
-# Carregar rodovias
-get_rodovias_sf <- function() {
-  rodovias_sf <- st_read(here("shapefiles", "rodovias", "rodovia.shp"))
-  return(rodovias_sf)
+# Load highways
+get_highways_sf <- function() {
+  highways_sf <- st_read(here("data", "raw", "shapefiles", "highways", "highways.shp"))
+  return(highways_sf)
 }
 
-# Carregar setores censitários de 2000
-get_censo_sf_2000 <- function() {
-  # Shapefile do censo de 2000 - rural
-  censo_sf_2000_rural <- read_census_tract(code_tract = "DF", year = 2000, zone = "rural") %>%
+# Load census tracts for 2000
+get_census_sf_2000 <- function() {
+  # 2000 census shapefile - rural
+  census_sf_2000_rural <- read_census_tract(code_tract = "DF", year = 2000, zone = "rural") %>%
     select(-zone)
   
-  # Shapefile do censo de 2000 - urbano
-  censo_sf_2000_urbano <- read_census_tract(code_tract = "DF", year = 2000)
+  # 2000 census shapefile - urban
+  census_sf_2000_urban <- read_census_tract(code_tract = "DF", year = 2000)
   
-  # Unindo os dois shapefiles
-  censo_2000_completo <- rbind(censo_sf_2000_rural, censo_sf_2000_urbano)
+  # Binding the two shapefiles
+  census_2000_full <- rbind(census_sf_2000_rural, census_sf_2000_urban)
   
-  # Utilizando CRS padrão
-  crs_padrao <- 31983
-  censo_sf_2000_completo <- st_transform(censo_2000_completo, crs_padrao)
+  # Using the default CRS
+  default_crs <- 31983
+  census_sf_2000_full <- st_transform(census_2000_full, default_crs)
   
-  # Excluindo colunas desnecessárias
-  censo_sf_2000_completo <- censo_sf_2000_completo %>%
+  # Dropping unnecessary columns
+  census_sf_2000_full <- census_sf_2000_full %>%
     select(-code_muni, -code_state)
   
-  return(censo_sf_2000_completo)
+  return(census_sf_2000_full)
 }
 
-# Carregar setores censitários de 2010
-get_censo_sf_2010 <- function() {
-  # Obtendo os shapefiles do geobr
-  censo_sf_2010 <- read_census_tract(code_tract = "DF", year = 2010)
+# Load census tracts for 2010
+get_census_sf_2010 <- function() {
+  # Getting the shapefiles from geobr
+  census_sf_2010 <- read_census_tract(code_tract = "DF", year = 2010)
   
-  # Utilizando o CRS padrão
-  crs_padrao <- 31983
-  censo_sf_2010 <- st_transform(censo_sf_2010, crs_padrao)
+  # Using the default CRS
+  default_crs <- 31983
+  census_sf_2010 <- st_transform(census_sf_2010, default_crs)
   
-  # Excluindo colunas desnecessárias
-  censo_sf_2010 <- censo_sf_2010 %>%
+  # Dropping unnecessary columns
+  census_sf_2010 <- census_sf_2010 %>%
     select(-zone, -code_muni, -name_muni, -name_neighborhood, -code_neighborhood, -code_subdistrict, -code_subdistrict, -name_district, -code_district, -code_state, -name_subdistrict) 
   
-  return(censo_sf_2010)
+  return(census_sf_2010)
 }

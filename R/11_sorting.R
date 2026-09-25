@@ -1,75 +1,75 @@
 # =============================================================================
-# 11_sorting.R — Evidências de sorting: população, domicílios,
-#                renda por domicílio e proporção de apartamentos
+# 11_sorting.R — Sorting evidence: population, households,
+#                income per household and apartment share
 # =============================================================================
 #
-# Objetivo: verificar se o metrô causou realocação de pessoas e/ou mudanças
-# na composição dos domicílios nas áreas próximas às estações. Resultados
-# nulos reforçam que o efeito sobre renda (6_regressoes.R) reflete crescimento
-# in situ, e não sorting de residentes mais ricos.
+# Goal: check whether the subway caused relocation of people and/or changes
+# in the composition of households in the areas near stations. Null results
+# reinforce that the effect on income (6_main_regressions.R) reflects in situ
+# growth, and not sorting of wealthier residents.
 #
 # Outcomes:
-#   (A) var_pop_log        = log(pop_2010) - log(pop_2000)
-#   (B) var_domicilios_log = log(domicilios_2010) - log(domicilios_2000)
-#   (C) var_renda_dom_log  = log(renda_dom_2010) - log(renda_dom_2000)
-#          renda_por_domicilio: testa se o metrô atraiu domicílios de maior
-#          renda (sorting por tipo de residência, não por pessoas)
-#   (D) var_prop_apt_nivel = prop_apt_2010 - prop_apt_2000  [nível, não log]
-#          proporção de apartamentos: testa gentrificação/mudança de uso do
-#          solo; inclui setores que partiram de zero apartamentos
+#   (A) dlog_pop        = log(pop_2010) - log(pop_2000)
+#   (B) dlog_households = log(households_2010) - log(households_2000)
+#   (C) dlog_income_per_household  = log(income_hh_2010) - log(income_hh_2000)
+#          income_per_household: tests whether the subway attracted higher-income
+#          households (sorting by type of residence, not by persons)
+#   (D) d_share_apt = share_apt_2010 - share_apt_2000  [level, not log]
+#          apartment share: tests gentrification/land-use change;
+#          includes tracts that started from zero apartments
 #
-# Estrutura: 4 especificações com adição progressiva de controles, espelhando
-# 6_regressoes.R. Controle baseline = nível inicial do próprio outcome.
-# log(renda_per_capita_2000) entra apenas nas especificações (3) e (4).
-# Threshold e instrumento: 1000 m. Amostra: dummy_metro_10km == 1.
+# Structure: 4 specifications with progressively added controls, mirroring
+# 6_main_regressions.R. Baseline control = initial level of the outcome itself.
+# log(income_per_capita_2000) enters only in specifications (3) and (4).
+# Threshold and instrument: 1000 m. Sample: dummy_subway_10km == 1.
 # =============================================================================
 
 # -----------------------------------------------------------------------------
-# (A) Crescimento populacional
+# (A) Population growth
 # -----------------------------------------------------------------------------
-rodar_regressoes_populacao <- function(amostra) {
+run_regressions_population <- function(smpl) {
 
-  dados <- amostra %>% filter(dummy_metro_10km == 1)
+  dat <- smpl %>% filter(dummy_subway_10km == 1)
 
-  # (1) População baseline + FE de RA
+  # (1) Baseline population + RA FE
   pop_iv_1 <- feols(
-    var_pop_log ~ log(pop_2000)
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+    dlog_pop ~ log(pop_2000)
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (2) + Controles geográficos
+  # (2) + Geographic controls
   pop_iv_2 <- feols(
-    var_pop_log ~
+    dlog_pop ~
       log(pop_2000) +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000)
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+      log(dist_cbd_2000) + log(dist_highway_2000)
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (3) + Controles socioeconômicos (inclui renda_2000)
+  # (3) + Socioeconomic controls (includes income_2000)
   pop_iv_3 <- feols(
-    var_pop_log ~
+    dlog_pop ~
       log(pop_2000) +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (4) Todos os controles [especificação completa]
+  # (4) All controls [full specification]
   pop_iv_4 <- feols(
-    var_pop_log ~
+    dlog_pop ~
       log(pop_2000) +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000) +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+      log(dist_cbd_2000) + log(dist_highway_2000) +
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
   list(pop_iv_1 = pop_iv_1, pop_iv_2 = pop_iv_2,
@@ -77,242 +77,242 @@ rodar_regressoes_populacao <- function(amostra) {
 }
 
 # -----------------------------------------------------------------------------
-# (B) Crescimento de domicílios
+# (B) Household growth
 # -----------------------------------------------------------------------------
-rodar_regressoes_domicilios <- function(amostra, censo_final) {
+run_regressions_households <- function(smpl, census_final) {
 
-  # Construir var_domicilios_log a partir do painel completo (censo_final),
-  # pois essa variação não é pré-computada em criar_variacoes()
-  dom_vars <- censo_final %>%
+  # Build dlog_households from the full panel (census_final),
+  # since this change is not precomputed in create_changes()
+  hh_vars <- census_final %>%
     st_drop_geometry() %>%
-    filter(dummy_metro_10km == 1) %>%
-    arrange(code_tract, ano) %>%
+    filter(dummy_subway_10km == 1) %>%
+    arrange(code_tract, year) %>%
     group_by(code_tract) %>%
     summarise(
-      dom_2000 = first(domicilios[ano == 2000]),
-      dom_2010 = first(domicilios[ano == 2010]),
+      hh_2000 = first(households[year == 2000]),
+      hh_2010 = first(households[year == 2010]),
       .groups  = "drop"
     ) %>%
     mutate(
-      var_domicilios_log = ifelse(
-        dom_2000 > 0 & dom_2010 > 0,
-        log(dom_2010) - log(dom_2000),
+      dlog_households = ifelse(
+        hh_2000 > 0 & hh_2010 > 0,
+        log(hh_2010) - log(hh_2000),
         NA_real_
       )
     )
 
-  dados <- amostra %>%
-    filter(dummy_metro_10km == 1) %>%
+  dat <- smpl %>%
+    filter(dummy_subway_10km == 1) %>%
     left_join(
-      dom_vars %>% select(code_tract, dom_2000, var_domicilios_log),
+      hh_vars %>% select(code_tract, hh_2000, dlog_households),
       by = "code_tract"
     )
 
-  # (1) Domicílios baseline + FE de RA
-  dom_iv_1 <- feols(
-    var_domicilios_log ~ log(dom_2000)
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (1) Baseline households + RA FE
+  hh_iv_1 <- feols(
+    dlog_households ~ log(hh_2000)
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (2) + Controles geográficos
-  dom_iv_2 <- feols(
-    var_domicilios_log ~
-      log(dom_2000) +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000)
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (2) + Geographic controls
+  hh_iv_2 <- feols(
+    dlog_households ~
+      log(hh_2000) +
+      log(dist_cbd_2000) + log(dist_highway_2000)
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (3) + Controles socioeconômicos (inclui renda_2000)
-  dom_iv_3 <- feols(
-    var_domicilios_log ~
-      log(dom_2000) +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (3) + Socioeconomic controls (includes income_2000)
+  hh_iv_3 <- feols(
+    dlog_households ~
+      log(hh_2000) +
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (4) Todos os controles [especificação completa]
-  dom_iv_4 <- feols(
-    var_domicilios_log ~
-      log(dom_2000) +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000) +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (4) All controls [full specification]
+  hh_iv_4 <- feols(
+    dlog_households ~
+      log(hh_2000) +
+      log(dist_cbd_2000) + log(dist_highway_2000) +
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  list(dom_iv_1 = dom_iv_1, dom_iv_2 = dom_iv_2,
-       dom_iv_3 = dom_iv_3, dom_iv_4 = dom_iv_4)
+  list(hh_iv_1 = hh_iv_1, hh_iv_2 = hh_iv_2,
+       hh_iv_3 = hh_iv_3, hh_iv_4 = hh_iv_4)
 }
 
 # -----------------------------------------------------------------------------
-# (C) Crescimento da renda por domicílio
+# (C) Income per household growth
 # -----------------------------------------------------------------------------
-rodar_regressoes_renda_domicilio <- function(amostra, censo_final) {
+run_regressions_income_per_household <- function(smpl, census_final) {
 
-  # Construir variação e baseline a partir do painel completo
-  rend_dom_vars <- censo_final %>%
+  # Build the change and the baseline from the full panel
+  income_hh_vars <- census_final %>%
     st_drop_geometry() %>%
-    filter(dummy_metro_10km == 1) %>%
+    filter(dummy_subway_10km == 1) %>%
     group_by(code_tract) %>%
     summarise(
-      rdpc_dom_2000      = first(renda_por_domicilios[ano == 2000]),
-      rdpc_dom_2010      = first(renda_por_domicilios[ano == 2010]),
+      income_hh_2000      = first(income_per_household[year == 2000]),
+      income_hh_2010      = first(income_per_household[year == 2010]),
       .groups = "drop"
     ) %>%
     mutate(
-      var_renda_dom_log = ifelse(
-        rdpc_dom_2000 > 0 & rdpc_dom_2010 > 0,
-        log(rdpc_dom_2010) - log(rdpc_dom_2000),
+      dlog_income_per_household = ifelse(
+        income_hh_2000 > 0 & income_hh_2010 > 0,
+        log(income_hh_2010) - log(income_hh_2000),
         NA_real_
       )
     )
 
-  dados <- amostra %>%
-    filter(dummy_metro_10km == 1) %>%
+  dat <- smpl %>%
+    filter(dummy_subway_10km == 1) %>%
     left_join(
-      rend_dom_vars %>% select(code_tract, rdpc_dom_2000, var_renda_dom_log),
+      income_hh_vars %>% select(code_tract, income_hh_2000, dlog_income_per_household),
       by = "code_tract"
     )
 
-  # (1) Renda por domicílio baseline + FE de RA
-  rdm_iv_1 <- feols(
-    var_renda_dom_log ~ log(rdpc_dom_2000)
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (1) Baseline income per household + RA FE
+  iph_iv_1 <- feols(
+    dlog_income_per_household ~ log(income_hh_2000)
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (2) + Controles geográficos
-  rdm_iv_2 <- feols(
-    var_renda_dom_log ~
-      log(rdpc_dom_2000) +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000)
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (2) + Geographic controls
+  iph_iv_2 <- feols(
+    dlog_income_per_household ~
+      log(income_hh_2000) +
+      log(dist_cbd_2000) + log(dist_highway_2000)
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (3) + Controles socioeconômicos (inclui renda per capita 2000)
-  rdm_iv_3 <- feols(
-    var_renda_dom_log ~
-      log(rdpc_dom_2000) +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (3) + Socioeconomic controls (includes per-capita income 2000)
+  iph_iv_3 <- feols(
+    dlog_income_per_household ~
+      log(income_hh_2000) +
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (4) Todos os controles [especificação completa]
-  rdm_iv_4 <- feols(
-    var_renda_dom_log ~
-      log(rdpc_dom_2000) +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000) +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+  # (4) All controls [full specification]
+  iph_iv_4 <- feols(
+    dlog_income_per_household ~
+      log(income_hh_2000) +
+      log(dist_cbd_2000) + log(dist_highway_2000) +
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  list(rdm_iv_1 = rdm_iv_1, rdm_iv_2 = rdm_iv_2,
-       rdm_iv_3 = rdm_iv_3, rdm_iv_4 = rdm_iv_4)
+  list(iph_iv_1 = iph_iv_1, iph_iv_2 = iph_iv_2,
+       iph_iv_3 = iph_iv_3, iph_iv_4 = iph_iv_4)
 }
 
 # -----------------------------------------------------------------------------
-# (D) Mudança na proporção de apartamentos
+# (D) Change in the apartment share
 # -----------------------------------------------------------------------------
-rodar_regressoes_prop_apartamentos <- function(amostra, censo_final) {
+run_regressions_apartment_share <- function(smpl, census_final) {
 
-  # Obter prop_apt_2000 do painel (não está em preparar_amostra_regressoes)
-  prop_apt_vars <- censo_final %>%
+  # Get share_apt_2000 from the panel (it is not in prepare_regression_sample)
+  share_apt_vars <- census_final %>%
     st_drop_geometry() %>%
-    filter(dummy_metro_10km == 1, ano == 2000) %>%
+    filter(dummy_subway_10km == 1, year == 2000) %>%
     group_by(code_tract) %>%
-    summarise(prop_apt_2000 = first(prop_apartamentos), .groups = "drop")
+    summarise(share_apt_2000 = first(share_apartments), .groups = "drop")
 
-  dados <- amostra %>%
-    filter(dummy_metro_10km == 1) %>%
-    left_join(prop_apt_vars, by = "code_tract")
+  dat <- smpl %>%
+    filter(dummy_subway_10km == 1) %>%
+    left_join(share_apt_vars, by = "code_tract")
 
-  # (1) Proporção de apartamentos baseline + FE de RA
-  # Nota: baseline em nível (não log) pois prop_apt pode ser zero
+  # (1) Baseline apartment share + RA FE
+  # Note: baseline in levels (not logs) because share_apt can be zero
   apt_iv_1 <- feols(
-    var_prop_apt_nivel ~ prop_apt_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+    d_share_apt ~ share_apt_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (2) + Controles geográficos
+  # (2) + Geographic controls
   apt_iv_2 <- feols(
-    var_prop_apt_nivel ~
-      prop_apt_2000 +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000)
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+    d_share_apt ~
+      share_apt_2000 +
+      log(dist_cbd_2000) + log(dist_highway_2000)
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (3) + Controles socioeconômicos (inclui renda 2000)
+  # (3) + Socioeconomic controls (includes income 2000)
   apt_iv_3 <- feols(
-    var_prop_apt_nivel ~
-      prop_apt_2000 +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+    d_share_apt ~
+      share_apt_2000 +
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
-  # (4) Todos os controles [especificação completa]
+  # (4) All controls [full specification]
   apt_iv_4 <- feols(
-    var_prop_apt_nivel ~
-      prop_apt_2000 +
-      log(dist_centro_brasilia_2000) + log(dist_rodovia_2000) +
-      log(renda_per_capita_2000) + prop_ens_sup_completo_2000 +
-      prop_analfabetos_2000 + prop_over_65_2000
-    | ra_cira
-    | log(dummy_1000m + 1) ~ log(dummyp_1000m + 1),
-    data = dados, se = "cluster", cluster = ~ra_cira
+    d_share_apt ~
+      share_apt_2000 +
+      log(dist_cbd_2000) + log(dist_highway_2000) +
+      log(income_per_capita_2000) + share_college_complete_2000 +
+      share_illiterate_2000 + share_over_65_2000
+    | ra_id
+    | dummy_1000m ~ dummyp_1000m,
+    data = dat, se = "cluster", cluster = ~ra_id
   )
 
   list(apt_iv_1 = apt_iv_1, apt_iv_2 = apt_iv_2,
        apt_iv_3 = apt_iv_3, apt_iv_4 = apt_iv_4)
 }
 
-# # Ler cada resultado
-# res_pop <- tar_read(resultados_populacao)
-# res_dom <- tar_read(resultados_domicilios)
-# res_rdm <- tar_read(resultados_renda_domicilio)
-# res_apt <- tar_read(resultados_prop_apt)
+# # Read each result
+# res_pop <- tar_read(results_population)
+# res_hh <- tar_read(results_households)
+# res_iph <- tar_read(results_income_per_household)
+# res_apt <- tar_read(results_apartment_share)
 # 
-# # Especificação completa de cada outcome
-# # População ---
+# # Full specification of each outcome
+# # Population ---
 # summary(res_pop$pop_iv_1)
 # summary(res_pop$pop_iv_2)
 # summary(res_pop$pop_iv_3)
 # summary(res_pop$pop_iv_4)
-# # Domicílios --
-# summary(res_dom$dom_iv_1)
-# summary(res_dom$dom_iv_2)
-# summary(res_dom$dom_iv_3)
-# summary(res_dom$dom_iv_4)
-# # Renda por domicílios 
-# summary(res_rdm$rdm_iv_1)
-# summary(res_rdm$rdm_iv_2)
-# summary(res_rdm$rdm_iv_3)
-# summary(res_rdm$rdm_iv_4)
-# # Número de apartamentos
+# # Households --
+# summary(res_hh$hh_iv_1)
+# summary(res_hh$hh_iv_2)
+# summary(res_hh$hh_iv_3)
+# summary(res_hh$hh_iv_4)
+# # Income per household 
+# summary(res_iph$iph_iv_1)
+# summary(res_iph$iph_iv_2)
+# summary(res_iph$iph_iv_3)
+# summary(res_iph$iph_iv_4)
+# # Number of apartments
 # summary(res_apt$apt_iv_1)
 # summary(res_apt$apt_iv_2)
 # summary(res_apt$apt_iv_3)
