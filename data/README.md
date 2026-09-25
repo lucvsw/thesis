@@ -40,7 +40,7 @@ from the repository root to read only the Federal District window from the publi
 
 ## Analysis dataset (`data/processed/`)
 
-`census_final` is the target of the same name in the pipeline (`_targets.R`): 5,366 rows (census tracts observed in 2000 and 2010, after harmonizing the two tract maps, see Appendix A of the paper) and 130 columns. Because geography and exposure do not vary over time, use one year of rows (for example `year == 2010`) for tract-level analyses. Three tracts fall outside every administrative region; they carry `ra_id = "outsideRA"`. The main variables are:
+`census_final` is the target of the same name in the pipeline (`_targets.R`): 5,358 rows (census tracts observed in 2000 and 2010, after harmonizing the two tract maps, see Appendix A of the paper) and 130 columns. Because geography and exposure do not vary over time, use one year of rows (for example `year == 2010`) for tract-level analyses. Three tracts fall outside every administrative region; they carry `ra_id = "outsideRA"`. The main variables are:
 
 | Variable | Description |
 |---|---|
