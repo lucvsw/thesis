@@ -42,7 +42,7 @@ from the repository root to read only the Federal District window from the publi
 
 ## Analysis dataset (`data/processed/`)
 
-`census_final` is the target of the same name in the pipeline (`_targets.R`): 5,358 rows (census tracts observed in 2000 and 2010, after harmonizing the two tract maps, see Appendix A of the paper) and 130 columns. The 2000 and 2010 rows of a tract carry slightly different polygons (the 2010 tracts are merged to match the 2000 map), so for 21 tracts the exposure indicator differs between the two rows; the regressions use the 2010 row. For tract-level analyses use one year of rows (for example `year == 2010`). Three tracts fall outside every administrative region; they carry `ra_id = "outsideRA"`. The main variables are:
+`census_final` is the target of the same name in the pipeline (`_targets.R`): 5,358 rows (census tracts observed in 2000 and 2010, after harmonizing the two tract maps, see Appendix A of the paper) and 128 columns (127 attributes plus the geometry). The 2000 and 2010 rows of a tract carry slightly different polygons (the 2010 tracts are merged to match the 2000 map), so for 21 tracts the exposure indicator differs between the two rows; the regressions use the 2010 row. For tract-level analyses use one year of rows (for example `year == 2010`). Three tracts fall outside every administrative region; they carry `ra_id = "outsideRA"`. The main variables are:
 
 | Variable | Description |
 |---|---|
@@ -67,3 +67,11 @@ from the repository root to read only the Federal District window from the publi
 | `dlog_*`, `d_*` | Log changes (`dlog_`) and level changes (`d_`) between 2000 and 2010 |
 
 Other columns are constructed in `R/2_census_data.R` and `R/4_new_variables.R`.
+
+The two files were written from the `census_final` target after a full `targets::tar_make()`:
+
+```r
+targets::tar_load(census_final)
+sf::st_write(census_final, "data/processed/census_final.gpkg", layer = "census_final", delete_dsn = TRUE)
+readr::write_csv(sf::st_drop_geometry(census_final), "data/processed/census_final.csv")
+```
