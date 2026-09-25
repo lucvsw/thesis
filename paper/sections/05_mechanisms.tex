@@ -1,0 +1,137 @@
+\section{Mechanisms: Urban Structure, Composition, or Labor-Market Channel?}
+\label{s:mechanisms}
+
+The positive effect of subway exposure on income growth estimated in the previous section could in principle arise from three distinct mechanisms, but only one of them implies that the residents already living in exposed tracts became better off; the other two would produce the same tract-level number without a single incumbent earning more. The first is that subway access induces changes in the physical and urban structure of nearby areas. Under this interpretation, the arrival of a station attracts new developments, increases population density, and draws in commercial activity, and the measured income growth follows from this broader urban transformation rather than from any change in incumbents' own income. The second is compositional change rather than individual income growth: if subway access raises the desirability of nearby areas, property values and rents may rise, pricing out lower-income residents and attracting higher-income ones in their place, so that tract-level income rises not because existing residents became richer but because they were replaced. Ruling out both is necessary, but not sufficient, to conclude that incumbents gained: it shows only that the effect is not an artifact of physical or demographic change, not that it is a real income gain.
+
+The third mechanism is the one under which incumbents' own income actually rises: subway access raises the income of incumbent residents through improved job access. A new station reduces the generalized cost of commuting, including travel time, monetary cost, and the psychological burden of unreliable trips, which effectively expands the set of jobs a worker can realistically consider. With a larger pool of reachable jobs, workers are more likely to find positions that better match their skills and productivity, and face lower frictions when searching for or switching to better-paying employment. Commuting time saved can also translate into additional hours worked or into the feasibility of jobs with schedules or locations that were previously out of reach. Each of these channels points in the same direction: the same residents, earning more. This distinction---between an effect that operates on the area or its population and one that operates on the incomes of the people who already live there---matters for the welfare and distributional implications of the results.
+
+The analysis proceeds in three steps. The first two test the alternative hypotheses directly: whether subway-exposed tracts experienced a differential shift in their physical structure or in their demographic composition relative to unexposed ones. Ruling out both narrows the field to the labor-market channel, but elimination is not confirmation: it shows what the income gain is not, not what it is. The third step supplies that missing positive test. No direct measure of job access is available for this period, so the channel is probed through a proxy instead: we decompose the income effect into two margins, an extensive margin---whether more household heads came to report positive income---and an intensive margin---whether those who already had income earned more. The three steps are complementary: ruling out the alternatives narrows the field, and the margin decomposition supplies the positive evidence that the remaining channel predicts.\\
+
+\noindent
+\textbf{Urban Structure Hypothesis.} To test the urban structure hypothesis, we estimate the effect of subway exposure on four outcomes: population growth, household growth, apartment share growth, and urban land cover growth. The first three capture whether the arrival of the subway induced physical changes in nearby tracts, specifically whether it attracted more residents, generated new housing units, or shifted the residential stock toward denser housing types. The fourth captures whether the subway triggered a broader spatial transformation of the built environment, measured as the change in the share of each tract's area classified as urban by MapBiomas.\footnote{The MapBiomas land-use raster has a resolution of approximately 30 meters; since the unit of observation is the census tract, the tract-level variable was constructed by aggregating pixel values within each tract polygon, computing the share of pixels classified as urban. An important limitation of this measure is that it does not capture the \emph{intensity} of urbanization: a densely built-up block and a sparsely developed lot are recorded identically. The variable detects whether the spatial extent of urban land within a tract expanded, but cannot indicate whether already-urbanized areas became denser or more intensively developed.} Results are reported in Table~\ref{tab:sorting_tests}.
+
+\begin{table}[htbp]
+\centering
+\caption{Urban structure and demographic outcomes: 2SLS estimates using the full specification (10 km sample, 1,000 m threshold)}
+\label{tab:sorting_tests}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccc}
+\toprule
+& (1) & (2) & (3) & (4) \\
+& Population growth & Household growth & Apartment share growth & Urban land cover growth \\
+\midrule
+Fitted subway exposure
+  & $-$0.0653       & $-$0.0713       & 0.0106         & 0.0318         \\
+  & (0.0400)        & (0.0449)        & (0.0203)       & (0.0364)       \\[4pt]
+Lagged dependent variable
+  & $-$0.3594$^{***}$ & $-$0.3711$^{***}$ & $-$0.1450$^{**}$ & $-$0.2961$^{***}$ \\
+  & (0.0876)        & (0.0950)        & (0.0635)       & (0.0634)       \\[4pt]
+\midrule
+Administrative Region FE   & Yes  & Yes  & Yes  & Yes  \\
+Geographic controls        & Yes  & Yes  & Yes  & Yes  \\
+Socioeconomic controls     & Yes  & Yes  & Yes  & Yes  \\
+Observations               & 1,702 & 1,702 & 1,702 & 1,741 \\
+RMSE                       & 0.352 & 0.372 & 0.090 & 0.083 \\
+Adjusted $R^2$             & 0.507 & 0.463 & 0.220 & 0.394 \\
+First-stage $F$-statistic  & 840.4 & 841.3 & 778.1 & 882.5 \\
+Wu--Hausman $p$-value      & 0.678 & 0.365 & 0.722 & 0.093 \\
+\midrule
+Instrument & \multicolumn{4}{c}{$Z_i^{(1000)}$} \\
+\bottomrule
+\end{tabular}
+}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Each column reports the second-stage 2SLS estimate from the most complete specification for a different outcome. Standard errors clustered at the administrative-region (RA) level are reported in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects, geographic controls, and socioeconomic controls, and use the sample restricted to census tracts within 10 km of the subway network. Subway exposure is treated as endogenous and instrumented by the planned/discarded network proximity indicator at the 1,000 m threshold. The lagged dependent variable corresponds to the baseline level of each outcome in 2000. Column~(4): change in the share of the tract's area classified as urban land by MapBiomas; the binary classification means this variable captures the extensive margin of urbanization only.
+\end{tablenotes}
+\end{table}
+
+Table~\ref{tab:sorting_tests} reports results for four outcomes that together test the urban structure hypothesis. Under sorting, whether through displacement of large families by smaller high-income households or through the arrival of new residents alongside incumbents, we would expect population and household counts to shift, the housing stock to tilt toward apartments, and the spatial extent of urban land to expand. The data offer no support for this pattern: all four outcomes show no statistically significant response to subway exposure. The null result on urban land cover indicates that the subway did not trigger a territorial expansion of the built environment in nearby tracts; though the measure is limited to the extensive margin and cannot detect densification of areas already classified as urban, the finding is consistent with the absence of broad physical restructuring implied by the other three outcomes. Together, the four null findings form a mutually consistent rejection of the urban structure interpretation, suggesting that the subway did not meaningfully alter the physical profile of nearby tracts and that the estimated income gains more plausibly reflect real income improvements among incumbent residents.\\
+
+\noindent
+\textbf{Demographic Composition Hypothesis.} If the demographic composition or sorting hypothesis is valid, subway-exposed tracts should display a coherent pattern of demographic change relative to unexposed ones. To test this, we use five variables that capture complementary dimensions of such a recomposition: family structure, household-head human capital,\footnote{We proxy household-head human capital by the illiteracy rate among household heads, rather than the share of heads with higher education, because the latter is not available for both the 2000 and 2010 censuses.} high-income household-head share, elderly population share, and working-age population share. These dimensions are complementary rather than interchangeable. The high-income household-head share offers the most direct test of income-based sorting---it measures whether wealthier residents moved in---while the remaining variables corroborate the process along family, educational, and age margins. Sorting need not register on every dimension, but it should leave a coherent imprint across them, and above all on the direct measure of income composition. It is the absence of such a pattern, rather than the failure of all five variables to shift in lockstep, that would speak against the hypothesis.
+
+\begin{table}[htbp]
+\centering
+\caption{Compositional outcomes: 2SLS estimates using the full specification (10 km sample, 1,000 m threshold)}
+\label{tab:composition_tests}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lccccc}
+\toprule
+& (1) & (2) & (3) & (4) & (5) \\
+& Large-family household share & Household-head illiteracy rate & High-income head share & Elderly population share & Working-age population share \\
+\midrule
+Fitted subway exposure
+  & $-$0.0018         & $-$0.0012         & 0.0019            & 0.0081$^{*}$      & $-$0.0042         \\
+  & (0.0042)          & (0.0026)          & (0.0048)          & (0.0041)          & (0.0109)          \\[4pt]
+Lagged dependent variable
+  & $-$0.6034$^{***}$ & $-$0.7143$^{***}$ & $-$0.3722$^{**}$  & $-$0.0890         & $-$0.7167$^{***}$ \\
+  & (0.0552)          & (0.0394)          & (0.1192)          & (0.0662)          & (0.0765)          \\[4pt]
+\midrule
+Administrative Region FE   & Yes    & Yes    & Yes    & Yes    & Yes    \\
+Geographic controls        & Yes    & Yes    & Yes    & Yes    & Yes    \\
+Socioeconomic controls     & Yes    & Yes    & Yes    & Yes    & Yes    \\
+Observations               & 1,701  & 1,703  & 1,703  & 1,704  & 1,704  \\
+RMSE                       & 0.041  & 0.019  & 0.065  & 0.019  & 0.034  \\
+Adjusted $R^2$             & 0.526  & 0.728  & 0.714  & 0.332  & 0.555  \\
+First-stage $F$-statistic  & 852.6  & 845.3  & 836.7  & 845.6  & 834.0  \\
+Wu--Hausman $p$-value      & 0.042  & 0.090  & 0.324  & 0.022  & 0.233  \\
+\midrule
+Instrument & \multicolumn{5}{c}{$Z_i^{(1000)}$} \\
+\bottomrule
+\end{tabular}
+}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Each column reports the second-stage 2SLS estimate from the most complete specification for a different compositional outcome. The dependent variable in each column is the change in the corresponding share between 2000 and 2010 ($\Delta = \text{value}_{2010} - \text{value}_{2000}$); the estimated coefficient therefore captures whether that share grew faster in subway-exposed tracts than in unexposed tracts over the decade. Standard errors clustered at the administrative-region (RA) level are reported in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects, geographic controls, and socioeconomic controls, and use the sample restricted to census tracts within 10 km of the subway network. Subway exposure is treated as endogenous and instrumented by the planned/discarded network proximity indicator at the 1,000 m threshold. The lagged dependent variable corresponds to the baseline level of each outcome in 2000. Column~(3): change in the share of household heads with nominal monthly income above 10 minimum wages. Column~(4): change in the share of residents aged 65 or older. Column~(5): change in the share of residents aged 15--64.
+\end{tablenotes}
+\end{table}
+
+Under the demographic composition hypothesis, subway-exposed tracts should show a coherent pattern of change relative to unexposed ones. The large-family household share should fall, as space-demanding, budget-constrained families are priced out and replaced by smaller, higher-income ones. The household-head illiteracy rate should fall, as more educated residents move in. The high-income household-head share should rise, the most direct sign of income-based selectivity. And the working-age share (ages 15--64) should rise while the elderly share falls, as mobile prime-age newcomers displace less mobile incumbents. A coherent movement across these margins---and, most directly, faster growth in the high-income household-head share---would indicate that the income gains estimated in the main results reflect population replacement rather than real income growth among incumbent residents.
+
+The results in Table~\ref{tab:composition_tests} do not support this pattern. Across all dimensions, subway-exposed tracts show no consistent differential shift relative to unexposed ones: family structure, educational profile, income composition, and working-age population share are all statistically indistinguishable between the two groups. The only significant result is a faster growth in the elderly population share in exposed tracts, which moves in the opposite direction from what sorting would predict.\footnote{Under the displacement narrative, the elderly share would decline in exposed tracts as less mobile incumbents exit and are replaced by prime-age newcomers. The positive coefficient instead suggests that residents of exposed tracts tended to remain in place over the decade, growing older alongside the subway infrastructure. If so, this is consistent with the main hypothesis: the same residents stayed, and, as the results on labor-market outcomes show, they earned more.} Combined with the null findings from Table~\ref{tab:sorting_tests} on population, household counts, and housing type, the overall picture is one of demographic and physical stability: subway-exposed areas do not look meaningfully different from unexposed ones along the dimensions that sorting would shift.\\
+
+\noindent
+\textbf{Labor-Market Hypothesis.} Ruling out the sorting and urban-structure hypotheses narrows the field, but elimination is not confirmation: it shows what the income gain is not, not that it is driven by improved job access. That channel needs a positive test of its own, and no measure of job access---no commuting survey, no employer-employee matched records, no accessibility index---is available for Brasília in this period. Absent a direct measure, the strategy is to look for the footprint that the mechanism itself predicts. A subway station lowers the cost of reaching jobs outside the immediate neighborhood, and job-search theory gives a specific prediction for what cheaper search should do: \citet{phillips2014gettingtowork} shows experimentally that subsidizing transit for job seekers raises the number of jobs they apply and interview for, with the effect concentrated among those living farthest from job opportunities. At the scale of an entire labor market, \citet{montereddingrossihansberg2018commuting} show in a quantitative spatial framework that lower commuting costs raise local employment and earnings precisely because they widen the set of jobs a resident can reach without relocating. Both point to the same observable signature: more residents earning an income, and higher earnings among those who already had one.
+
+This is the pair of outcomes tested below.\footnote{The income measure used here is the total nominal income declared by the household head from any source, not labor earnings specifically, so the two margins remain evidence \emph{consistent with} improved labor-market access rather than a direct measure of it. But they are precisely the outcomes the labor-market channel is expected to move, and with physical restructuring and demographic sorting already ruled out as competing explanations for the tract-level income gain, this pattern in these margins is difficult to attribute to anything else.} The \emph{extensive margin}---the share of household heads who report any positive income (Table~\ref{tab:labor_market}, column~1)---asks whether subway access let more heads obtain an income at all. The \emph{intensive margin}---the average income among heads who already have one (column~2)---asks whether those with income came to earn more. Column~3 reports the overall effect on average income per head, which the two margins jointly drive: more heads with income, and higher income among those who have it, both push it up. Because household heads tend to be geographically stable, and compositional and structural change have already been ruled out, this per-head measure effectively compares the income trajectory of the same individuals across exposed and unexposed tracts---so a faster gain among exposed heads reads as a real return to improved job access rather than a shift in who lives in the tract. Table~\ref{tab:labor_market} reports the 2SLS estimates for all three outcomes using the full specification.
+
+\begin{table}[htbp]
+\centering
+\caption{Labor-market mechanism: 2SLS estimates using the full specification (10 km sample, 1,000 m threshold)}
+\label{tab:labor_market}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lccc}
+\toprule
+ & (1) & (2) & (3) \\
+ & \begin{tabular}[c]{@{}c@{}}Change in share of heads \\ with positive income\end{tabular}
+ & \begin{tabular}[c]{@{}c@{}}Log change in average income \\ of heads with income\end{tabular}
+ & \begin{tabular}[c]{@{}c@{}}Log change in average income \\ across all heads\end{tabular} \\
+\midrule
+Fitted subway exposure
+  & 0.0153$^{**}$     & 0.0873$^{**}$     & 0.1033$^{**}$     \\
+  & (0.0068)          & (0.0352)          & (0.0392)          \\[4pt]
+Lagged dependent variable
+  & $-$0.9036$^{***}$ & $-$0.2314$^{***}$ & $-$0.2088$^{**}$  \\
+  & (0.0416)          & (0.0731)          & (0.0750)          \\[4pt]
+\midrule
+Administrative Region FE  & Yes    & Yes    & Yes    \\
+Geographic controls       & Yes    & Yes    & Yes    \\
+Socioeconomic controls    & Yes    & Yes    & Yes    \\
+Observations              & 1,704  & 1,703  & 1,697  \\
+RMSE                      & 0.068  & 0.181  & 0.213  \\
+Adjusted $R^2$            & 0.292  & 0.358  & 0.329  \\
+First-stage $F$-statistic & 842.6  & 853.2  & 859.4  \\
+Wu--Hausman $p$-value     & 0.028  & 0.000  & 0.000  \\
+\midrule
+Instrument & \multicolumn{3}{c}{$Z_i^{(1000)}$} \\
+\bottomrule
+\end{tabular}
+}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Each column reports the second-stage 2SLS estimate from the most complete specification for a different outcome. Standard errors clustered at the administrative-region (RA) level are reported in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects, geographic controls, and socioeconomic controls, and use the sample restricted to census tracts within 10 km of the subway network. Subway exposure is treated as endogenous and instrumented by the planned/discarded network proximity indicator at the 1,000 m threshold. Column~(1): change in the share of household heads reporting positive nominal income. Column~(2): log change in the average income of heads who have positive income (total head income divided by the number of heads with income). Column~(3): log change in the average income computed over all heads (total head income divided by the total number of heads). The lagged dependent variable corresponds to the 2000 baseline level of each outcome.
+\end{tablenotes}
+\end{table}
+
+All three outcomes respond positively and significantly to subway exposure, and together they tell a consistent story about the labor-market channel. Relative to comparable unexposed tracts, subway-exposed tracts saw a larger rise in the share of heads with positive income and faster income growth among those who already had it. This differential gain---a faster improvement among the exposed---is consistent with a reduction in commuting costs that expanded the reachable job set, allowing more heads to obtain income and existing earners to reach better-paying opportunities at higher rates than their unexposed counterparts. The resulting per-head income gain\footnote{This outcome is related to but distinct from the main per-capita income result, which divides the same income sum by total population. The difference between the two is the ratio of population to household heads, which includes children, elderly non-heads, and other non-head residents. The main result is thus a function of both income and household structure, while column~(3) isolates the average across household heads.} is broadly comparable to the main per-capita income estimate, as expected given the null effects on population and household counts in Table~\ref{tab:sorting_tests}. The estimated gain therefore reflects higher incomes among the same residents, just as the labor-market channel predicts. Whether this income premium was systematically larger in administrative regions where land-use regulation offered greater scope for densification and real estate development --- that is, whether the subway effect was amplified by the permissiveness of the local regulatory environment --- is examined in Appendix~\ref{s:appendix_cfam}.

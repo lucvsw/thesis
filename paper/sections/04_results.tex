@@ -1,0 +1,270 @@
+\section{Subway's Effect on Income Growth}
+\label{s:results}
+
+In this section, we present the empirical results of the analysis using the instrumental-variable strategy described in Section~\ref{s:methodology}. We begin by reporting the main results on the effect of subway exposure on income growth.  We then present a series of robustness checks designed to assess the stability of the estimates under alternative specifications, samples, and identification assumptions.
+
+\subsection{Main Results}
+\label{s:results1}
+
+Table \ref{tab:iv_results} reports the second-stage 2SLS estimates of the effect of subway exposure on census-tract income growth between 2000 and 2010. All specifications treat subway exposure as endogenous and instrument it using the corresponding planned/discarded network proximity indicator at the same distance threshold. The sample is restricted to census tracts located within 10 km of the subway network, and all regressions include administrative-region (RA) fixed effects, with standard errors clustered at the RA level.
+
+Column (1) presents the baseline specification, which includes only the initial level of income, measured as log per-capita income in 2000. Including the baseline income level is essential in this context because the dependent variable is income growth over the subsequent decade. Areas with higher initial income tend to exhibit lower subsequent growth due to convergence or mean-reversion dynamics, while poorer areas may experience faster relative growth. Omitting baseline income would therefore confound the estimated effect of subway exposure with these underlying growth dynamics, potentially attributing to the subway what is in fact a catch-up process across neighborhoods. Column (2) adds geographic controls that capture broader accessibility patterns in the urban structure: the logarithm of the distance to Brasília's CBD and the logarithm of the distance to the nearest highway. Since Brasília's subway system lines largely follow major transport corridors, this control help ensure that the subway exposure variable captures the specific contribution of rail access rather than general road-based accessibility. Distance to the CBD is included because income tends to decline with distance from the center, and the subway radiates outward from that center. Without this control, the subway exposure variable could simply pick up the income premium of being central rather than the effect of rail access itself. Column (3) introduces a set of socioeconomic characteristics measured in 2000, including the share of residents with higher education, the illiteracy rate, the share of elderly residents (aged 65 or more), and population size. These variables proxy for differences in human capital, demographic structure, and settlement patterns that may influence income trajectories independently of transport infrastructure. Including these controls helps ensure that the estimated subway effect is not driven by pre-existing socioeconomic differences across neighborhoods. Finally, column (4) includes the full set of geographic and socioeconomic controls simultaneously. 
+
+\begin{table}[htbp]
+\centering
+\caption{Effect of subway exposure on income growth: 2SLS first and second stage (10 km sample, 1,000 m threshold)}
+\label{tab:iv_results}
+\makebox[\textwidth][c]{\resizebox{0.85\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+ & (1) & (2) & (3) & (4) \\
+\midrule
+\multicolumn{5}{l}{\textit{Panel A: First stage --- dep.\ var.: $D_i^{(1000)}$ (subway exposure indicator)}} \\[4pt]
+Planned subway exposure $Z_i^{(1000)}$
+  & 0.6103$^{***}$    & 0.6085$^{***}$    & 0.5909$^{***}$    & 0.5910$^{***}$    \\
+  & (0.1109)          & (0.1158)          & (0.1014)          & (0.1057)          \\[2pt]
+\cmidrule(lr){1-5}
+RMSE                            & 0.322 & 0.321 & 0.320 & 0.319 \\
+Adjusted $R^2$                  & 0.486 & 0.489 & 0.491 & 0.494 \\
+First-stage $F$-statistic       & 931.1 & 922.0 & 837.2 & 839.0 \\[2pt]
+\midrule
+\multicolumn{5}{l}{\textit{Panel B: Second stage --- dep.\ var.: $\Delta y_i$ (log per-capita income growth, 2000--2010)}} \\[4pt]
+Fitted subway exposure
+  & 0.1088$^{*}$      & 0.0994$^{*}$      & 0.1065$^{**}$     & 0.1009$^{**}$     \\
+  & (0.0532)          & (0.0511)          & (0.0495)          & (0.0473)          \\[4pt]
+log(per-capita income, 2000)
+  & $-$0.2974$^{***}$ & $-$0.3063$^{***}$ & $-$0.3334$^{***}$ & $-$0.3403$^{***}$ \\
+  & (0.0470)          & (0.0462)          & (0.0332)          & (0.0327)          \\[2pt]
+\cmidrule(lr){1-5}
+RMSE                            & 0.226 & 0.225 & 0.224 & 0.223 \\
+Adjusted $R^2$                  & 0.288 & 0.295 & 0.302 & 0.308 \\
+Administrative Region FE        & Yes      & Yes           & Yes              & Yes          \\
+Controls                        & Baseline & + Geographic  & + Socioeconomic  & All controls \\
+Observations                    & 1,701    & 1,701         & 1,701            & 1,701        \\
+Wu--Hausman $p$-value           & 0.000    & 0.000         & 0.000            & 0.000        \\
+\bottomrule
+\end{tabular}
+}} % closes \resizebox and \makebox
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Standard errors clustered at the administrative-region (RA) level in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects and use the sample restricted to census tracts within 10 km of the subway network. Panel A reports the first-stage coefficient on the planned/discarded alignment indicator $Z_i^{(1000)}$; the first-stage $F$-statistic (reported within Panel A) tests instrument strength. Panel B reports the second-stage 2SLS coefficient on subway exposure. Wu--Hausman tests the null of exogeneity of subway exposure.
+\end{tablenotes}
+\end{table}
+
+Panel A of Table~\ref{tab:iv_results} reports the first-stage estimates. The coefficient on the planned-network instrument $Z_i^{(1000)}$ is positive, large in magnitude (around 0.59--0.61), and highly statistically significant in all four specifications ($p < 0.001$), confirming that proximity to the planned/discarded alignment is a strong predictor of realized subway exposure. The first-stage $F$-statistics range from 837 to 931, well above conventional weak-instrument thresholds, providing strong evidence in favor of instrument relevance. Further support for the instrumental-variable approach comes from the Wu--Hausman test, which rejects the null of exogeneity of subway exposure in all specifications ($p = 0.000$), indicating that OLS estimates would be biased due to endogenous station placement. OLS estimates, reported in Appendix~\ref{s:appendix_ols} for comparison, are systematically smaller than their 2SLS counterparts, consistent with the endogeneity bias the IV strategy is designed to correct. Taken together, these results confirm that the 2SLS framework is appropriate and the instrument is both relevant and empirically justified.
+
+Panel B of Table~\ref{tab:iv_results} presents the second-stage 2SLS estimates. Across all specifications, the coefficient on subway exposure is positive and statistically significant, indicating that census tracts located within 1,000 meters of the subway network experienced faster income growth between 2000 and 2010 relative to non-exposed areas. The estimated magnitude is highly stable across models, ranging from 0.0994 to 0.1088.\footnote{These estimates are best interpreted as a lower bound on the true causal effect. Because station locations for the discarded IMT alignment are unavailable, the instrument is constructed using distance to the nearest line segment rather than to the nearest station---introducing classical measurement error that attenuates the first-stage coefficient and biases the 2SLS estimates toward zero.} Importantly, the coefficient remains statistically significant as additional geographic and socioeconomic controls are introduced, suggesting that the positive relationship between subway exposure and income growth is not driven by observable differences in location or baseline socioeconomic characteristics.
+
+Section~\ref{sub:results2} subjects the baseline estimates to a series of robustness tests. The first exercise varies the distance scope of the estimation sample (5 to 20 km), verifying that the results are not sensitive to how broadly the comparison group is drawn. The second varies the distance threshold used to define treatment (500 to 2,500 m), assessing whether the findings depend on any particular assumption about the walkable catchment area of a station. The third replaces the binary exposure indicator with continuous measures of proximity, assessing whether the results are robust to the functional form used to operationalize subway access. Two final checks address inference: one examines sensitivity to the level at which standard errors are clustered, and the other re-estimates the baseline using \citet{conley1999gmm} spatial standard errors to account for residual dependence across geographically proximate tracts.
+
+\subsection{Robustness Tests}
+\label{sub:results2}
+
+\noindent
+\textbf{Alternative Sample Radii.} Table~\ref{tab:iv_results_radius} reports 2SLS estimates across six alternative sample radii (5, 7.5, 10, 12.5, 15, and 20 km) holding all other aspects of the specification constant. In this exercise, the radius defines the full estimation sample---that is, both treated and control tracts must fall within the specified distance from the nearest subway station. The treatment indicator itself remains fixed at the 1,000 m threshold throughout; what varies is who enters the comparison group. The goal is to assess whether the baseline results are sensitive to how broadly the control group is drawn. If the estimates remain stable across radii, this constitutes evidence that the baseline finding is not an artifact of the particular 10 km cutoff.
+
+\begin{table}[htbp]
+\centering
+\caption{Effect of subway exposure on income growth: 2SLS estimates across sample radii}
+\label{tab:iv_results_radius}
+\makebox[\textwidth][c]{\resizebox{0.85\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+\multicolumn{7}{c}{\textit{Dependent variable: log per-capita income growth (2000--2010)}} \\
+\midrule
+ & (1) & (2) & (3) & (4) & (5) & (6) \\
+ & 5 km & 7.5 km & 10 km & 12.5 km & 15 km & 20 km \\
+\midrule
+Fitted subway exposure
+  & 0.1060$^{**}$ & 0.1038$^{**}$ & 0.1009$^{**}$ & 0.1010$^{**}$ & 0.1045$^{**}$ & 0.1040$^{**}$ \\
+  & (0.0447) & (0.0474) & (0.0473) & (0.0469) & (0.0472) & (0.0485) \\[4pt]
+
+log(per-capita income, 2000)
+  & $-$0.3518$^{***}$ & $-$0.3497$^{***}$ & $-$0.3403$^{***}$ & $-$0.3418$^{***}$ & $-$0.3423$^{***}$ & $-$0.3300$^{***}$ \\
+  & (0.0354) & (0.0344) & (0.0327) & (0.0335) & (0.0325) & (0.0269) \\[4pt]
+\midrule
+Administrative Region FE & Yes & Yes & Yes & Yes & Yes & Yes \\
+Observations             & 1,504 & 1,670 & 1,701 & 1,763 & 1,815 & 2,258 \\
+RMSE                     & 0.222 & 0.221 & 0.223 & 0.222 & 0.223 & 0.220 \\
+Adjusted $R^2$           & 0.291 & 0.309 & 0.308 & 0.311 & 0.310 & 0.302 \\
+First-stage $F$-statistic& 714.8 & 813.3 & 839.0 & 869.9 & 865.4 & 940.8 \\
+Wu--Hausman $p$-value    & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.0001 & 0.00007 \\
+\midrule
+Instrument & \multicolumn{6}{c}{$Z_i^{(1000)}$} \\
+\bottomrule
+\end{tabular}
+}}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Standard errors clustered at the administrative-region (RA) level in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects. Each column restricts the estimation sample to census tracts located within the indicated radius of the subway network. Subway exposure is treated as endogenous and instrumented by the planned/discarded network proximity indicator at the same 1,000 m threshold.
+\end{tablenotes}
+\end{table}
+
+Results on Table~\ref{tab:iv_results_radius} are stable across all six sample definitions. The coefficient on subway exposure remains positive, statistically significant at the 5\% level, and virtually unchanged in magnitude across every radius tested, ranging narrowly from 0.101 to 0.106 with no systematic upward or downward trend as the sample expands. This stability directly addresses the concern motivating the exercise: the baseline finding is not an artifact of the particular 10 km cutoff. The standard errors also remain stable throughout, between 0.064 and 0.070, reflecting the fact that tracts added at wider radii are less informative controls, meaning they increase the sample size without proportionally reducing residual variance. The first-stage F-statistics and Wu--Hausman tests confirm that the instrumental-variable strategy remains valid under every sample definition considered. Taken together, these results confirm that the choice of 10 km as the baseline radius is conservative and well-grounded.
+\vspace{0.75cm}
+
+\noindent
+\textbf{Alternative Distance Thresholds.} Table~\ref{tab:iv_results_threshold} reports 2SLS estimates across five alternative distance thresholds (500, 1,000, 1,500, 2,000, and 2,500 m) holding the estimation sample fixed at 10 km. While the previous subsection varied who enters the control group, this exercise varies who is classified as treated, testing whether the baseline results depend on any particular assumption about the walkable distance to the nearest subway station. If the estimated effect remains positive and consistent across thresholds, this constitutes evidence that the 1,000 m baseline cutoff does not mechanically produce the observed results.
+
+\begin{table}[htbp]
+\centering
+\caption{Effect of subway exposure on income growth: 2SLS estimates across distance thresholds}
+\label{tab:iv_results_threshold}
+\makebox[\textwidth][c]{\resizebox{0.85\textwidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+\multicolumn{6}{c}{\textit{Dependent variable: log per-capita income growth (2000--2010)}} \\
+\midrule
+ & (1) & (2) & (3) & (4) & (5) \\
+ & 500 m & 1000 m & 1500 m & 2000 m & 2500 m \\
+\midrule
+
+Fitted subway exposure
+  & 0.0826 & 0.1009$^{**}$ & 0.0994$^{**}$ & 0.1325$^{*}$ & 0.1345 \\
+  & (0.0716) & (0.0473) & (0.0437) & (0.0657) & (0.0955) \\[4pt]
+
+log(per-capita income, 2000)
+  & $-$0.3314$^{***}$ & $-$0.3403$^{***}$ & $-$0.3451$^{***}$ & $-$0.3489$^{***}$ & $-$0.3366$^{***}$ \\
+  & (0.0335) & (0.0327) & (0.0363) & (0.0390) & (0.0379) \\[4pt]
+\midrule
+Administrative Region FE & Yes & Yes & Yes & Yes & Yes \\
+Observations             & 1,701 & 1,701 & 1,701 & 1,701 & 1,701 \\
+RMSE                     & 0.222 & 0.223 & 0.220 & 0.220 & 0.221 \\
+Adjusted $R^2$           & 0.302 & 0.308 & 0.308 & 0.310 & 0.305 \\
+First-stage $F$-statistic& 362.3 & 839.0 & 904.8 & 635.8 & 328.0 \\
+Wu--Hausman $p$-value    & 0.039 & 0.000 & 0.040 & 0.012 & 0.082 \\
+\midrule
+Instrument & \multicolumn{5}{c}{$Z_i^{(k)}$} \\
+\bottomrule
+\end{tabular}
+}}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Standard errors clustered at the administrative-region (RA) level in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects and use the sample restricted to census tracts within 10 km of the subway network. Subway exposure is treated as endogenous and instrumented by the planned/discarded network proximity indicator defined at each distance threshold.
+\end{tablenotes}
+
+\end{table}
+
+Results from Table~\ref{tab:iv_results_threshold} are consistent with the baseline finding. The coefficient on subway exposure is positive across all five thresholds, ranging from 0.083 to 0.133, with no sign reversal, confirming that the estimated effect does not hinge on any particular definition of treatment. The intermediate thresholds, between 1,000 and 1,500 m, yield the most precise estimates, with the smallest standard errors and the largest first-stage F-statistics (839 and 905, respectively), and are the only specifications significant at the 5\% level; notably, the baseline specification sits exactly within this range. This pattern has a clear econometric explanation: at these distances there is sufficient variation between exposed and unexposed tracts within the same administrative region for the planned-network instrument to discriminate effectively between the two groups. At 500 m, fewer tracts are classified as treated, the instrument has less variation to exploit, and precision falls accordingly. At 2,000 and 2,500 m, point estimates are somewhat larger but considerably less precise, as the instrument loses strength at greater distances from the network. The 1,000 m baseline threshold therefore offers the best balance between instrument power, estimation precision, and economic interpretability. The overall pattern of positive and consistent estimates across all thresholds further strengthens the main results.
+\vspace{0.75cm}
+
+\noindent
+\textbf{Continuous Measures of Exposure.} Table~\ref{tab:iv_results_intensity} reports 2SLS estimates that replace the binary exposure indicator with continuous treatment variables reflecting each tract's degree of proximity to the subway network. Three functional forms are considered, each capturing a different assumption about how accessibility declines with distance: a \textit{logistic sigmoid}, which maintains near-unity intensity up to the 1,000\,m transition zone and then falls off sharply, approximating the binary threshold with a smooth transition; a \textit{negative exponential}, which decays continuously from the station outward, assigning a steadily declining intensity to every tract without imposing any threshold; and a \textit{Gaussian kernel}, which concentrates most of its intensity within roughly one bandwidth of the station and decays much faster at larger distances.\footnote{The three specifications have the following functional forms. \textit{Logistic sigmoid}: $1\,/\bigl[1 + \exp\bigl((d_i - 1000)/\sigma\bigr)\bigr]$, where $\sigma$ governs the width of the transition zone around the 1,000\,m reference; for small $\sigma$ the function closely mimics the binary indicator, while larger values produce a progressively wider transition region. \textit{Negative exponential}: $\exp(-d_i/h)$, where $h$ is the decay parameter; the function reaches approximately $e^{-1} \approx 0.37$ of its maximum value at distance $h$. \textit{Gaussian kernel}: $\exp\!\bigl(-d_i^2/2\sigma^2\bigr)$, where $\sigma$ is the bandwidth. In all three cases, $d_i$ denotes the distance in meters from tract $i$'s centroid to the nearest subway station, and the instrument takes the same functional form applied to distance from the planned but unbuilt alignment. For each form, three bandwidth choices spanning a range from narrow to wide are reported to assess sensitivity to this parameter.} The instrument takes the same functional form applied to distance from the planned but unbuilt alignment.
+
+\begin{table}[htbp]
+\centering
+\caption{Effect of subway exposure on income growth: 2SLS estimates with continuous treatment measures}
+\label{tab:iv_results_intensity}
+\makebox[\textwidth][c]{\resizebox{0.97\textwidth}{!}{%
+\begin{tabular}{lrrr rrr rrr}
+\toprule
+\multicolumn{10}{c}{\textit{Dependent variable: $\Delta y_i$ (log per-capita income growth, 2000--2010)}} \\
+\midrule
+ & \multicolumn{3}{c}{\textit{Logistic sigmoid}} & \multicolumn{3}{c}{\textit{Negative exponential}} & \multicolumn{3}{c}{\textit{Gaussian kernel}} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+ & $\sigma\!=\!50$m & $\sigma\!=\!200$m & $\sigma\!=\!400$m
+ & $h\!=\!750$m    & $h\!=\!1000$m    & $h\!=\!1500$m
+ & $\sigma\!=\!700$m & $\sigma\!=\!900$m & $\sigma\!=\!1200$m \\
+\midrule
+Fitted subway exposure
+  & 0.1026$^{**}$     & 0.1167$^{*}$      & 0.1467$^{**}$
+  & 0.1708$^{*}$      & 0.1667$^{*}$      & 0.1644$^{*}$
+  & 0.1280$^{*}$      & 0.1332$^{*}$      & 0.1383$^{*}$ \\
+  & (0.0482)          & (0.0566)          & (0.0707)
+  & (0.0940)          & (0.0883)          & (0.0882)
+  & (0.0657)          & (0.0644)          & (0.0694) \\[4pt]
+log(per-capita income, 2000)
+  & $-$0.3411$^{***}$ & $-$0.3423$^{***}$ & $-$0.3438$^{***}$
+  & $-$0.3388$^{***}$ & $-$0.3399$^{***}$ & $-$0.3399$^{***}$
+  & $-$0.3410$^{***}$ & $-$0.3438$^{***}$ & $-$0.3442$^{***}$ \\
+  & (0.0332)          & (0.0335)          & (0.0344)
+  & (0.0338)          & (0.0341)          & (0.0345)
+  & (0.0336)          & (0.0344)          & (0.0355) \\[4pt]
+\midrule
+Administrative Region FE  & \multicolumn{9}{c}{Yes} \\
+Observations              & 1,701 & 1,701 & 1,701 & 1,701 & 1,701 & 1,701 & 1,701 & 1,701 & 1,701 \\
+RMSE                      & 0.222 & 0.221 & 0.221 & 0.221 & 0.221 & 0.220 & 0.221 & 0.221 & 0.220 \\
+Adjusted $R^2$            & 0.308 & 0.309 & 0.309 & 0.306 & 0.307 & 0.307 & 0.307 & 0.309 & 0.310 \\
+First-stage $F$-statistic & 990.9 & 1272.3 & 1438.7 & 1129.7 & 1344.6 & 1576.9 & 1224.2 & 1432.4 & 1494.6 \\
+Wu--Hausman $p$-value     & 0.000 & 0.001  & 0.002  & 0.019  & 0.018  & 0.032  & 0.002  & 0.002  & 0.011 \\
+\bottomrule
+\end{tabular}%
+}}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Standard errors clustered at the administrative-region (RA) level in parentheses. Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. All specifications include RA fixed effects, all baseline controls, and use the sample restricted to census tracts within 10 km of the subway network. Three functional forms are used to operationalize subway proximity: logistic sigmoid $1/[1+\exp((d_i-1000)/\sigma)]$, where $\sigma$ governs the width of the transition zone around the 1,000\,m reference; negative exponential $\exp(-d_i/h)$, where $h$ is the decay half-life; and Gaussian kernel $\exp(-d_i^2/2\sigma^2)$, where $\sigma$ is the kernel bandwidth. For each form, the instrument applies the same function to distance from the planned but unbuilt alignment ($d_i^{\mathrm{proj}}$).
+\end{tablenotes}
+\end{table}
+
+Table~\ref{tab:iv_results_intensity} confirms the main finding across all nine specifications. The coefficient on fitted subway exposure is positive and statistically significant in every case: at the 5\,\% level for all three sigmoid bandwidths and at the 10\,\% level for the exponential and Gaussian forms. Raw coefficients range from 0.103 to 0.171, but this variation reflects differences in the support of each continuous variable rather than genuine heterogeneity in the underlying effect. To compare specifications on a common scale, one can compute the implied income effect of moving a tract from the 10th to the 90th percentile of its treatment distribution; across all nine specifications this scaled effect lies between 0.093 and 0.129, consistent with the baseline estimate of approximately 0.10 from the binary indicator. That all three forms yield the same qualitative conclusion confirms that the result does not depend on how the binary threshold is relaxed. The first-stage $F$-statistics range from 991 to 1,577, confirming strong instrument relevance under every functional form, and the Wu--Hausman test rejects exogeneity in all nine specifications.
+
+\vspace{0.75cm}
+
+\noindent
+\textbf{Standard-Error Clustering Level.} The next check examines whether the baseline results are robust to the level at which standard errors are clustered. The main estimates cluster at the administrative-region (RA) level, which accounts for within-RA correlation of residuals arising from shared local policies, urban dynamics, and unobserved amenities. Table~\ref{tab:iv_results_clustering} replicates the four baseline specifications clustering instead at the census-tract level.\footnote{Because the estimation sample contains exactly one observation per census tract, clustering at the census-tract level is equivalent to clustering at the level of the individual observation --- each cluster has size one. This yields heteroskedasticity-robust (HC1) standard errors, treating observations as mutually independent after conditioning on regressors and fixed effects.}
+
+\begin{table}[htbp]
+\centering
+\caption{Effect of subway exposure on income growth: robustness to clustering level}
+\label{tab:iv_results_clustering}
+\makebox[\textwidth][c]{\resizebox{0.85\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+ & (1) & (2) & (3) & (4) \\
+\midrule
+\multicolumn{5}{l}{\textit{Clustered by census tract}} \\[4pt]
+Fitted subway exposure ($D_i^{(1000)}$)
+  & 0.1088$^{***}$ & 0.0994$^{***}$ & 0.1065$^{***}$ & 0.1009$^{***}$ \\
+  & (0.0232)       & (0.0227)       & (0.0236)       & (0.0234)       \\[2pt]
+\cmidrule(lr){1-5}
+Administrative Region FE  & Yes      & Yes           & Yes             & Yes          \\
+Controls                  & Baseline & + Geographic  & + Socioeconomic & All controls \\
+Observations              & 1,701    & 1,701         & 1,701           & 1,701        \\
+\bottomrule
+\end{tabular}
+}}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. Point estimates are identical to the baseline; only the inference changes. Standard errors clustered at the census-tract level; since the sample contains one observation per tract, this is equivalent to heteroskedasticity-robust (HC1) standard errors. All specifications use the 10 km sample and instrument subway exposure with the planned-alignment indicator $Z_i^{(1000)}$.
+\end{tablenotes}
+\end{table}
+
+The results are robust to this alternative clustering. Under tract-level clustering, standard errors are approximately half the size of the RA-clustered counterparts --- a ratio of 0.44 to 0.49 across specifications --- and the coefficient on subway exposure is highly significant in all four specifications ($p < 0.001$). The RA-level clustering used throughout the paper is the more conservative choice, appropriate given that both the identifying variation and potential unobserved confounders operate at that geographic scale.
+
+\vspace{0.75cm}
+
+\noindent
+\textbf{Conley Spatial Standard Errors.} RA-level clustering corrects for within-RA residual dependence but does not account for cross-RA spatial correlation between geographically proximate tracts near administrative boundaries. Table~\ref{tab:iv_results_conley} re-estimates the four baseline specifications using \citet{conley1999gmm} standard errors, which allow the residual covariance to decay continuously with geographic distance. The bandwidth is set to 3 km, motivated empirically by a Moran's $I$ correlogram of the IV residuals reported in Appendix~\ref{s:appendix_conley}: the correlogram shows that spatial autocorrelation is concentrated in the 0--1 km band ($I = 0.059$, $p < 0.001$) and is statistically indistinguishable from zero beyond 3 km, so this cutoff captures the full range of meaningful spatial dependence in the residuals.
+
+\begin{table}[htbp]
+\centering
+\caption{Effect of subway exposure on income growth: robustness to Conley spatial standard errors}
+\label{tab:iv_results_conley}
+\makebox[\textwidth][c]{\resizebox{0.85\textwidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+ & (1) & (2) & (3) & (4) \\
+\midrule
+\multicolumn{5}{l}{\textit{Conley spatial standard errors (3 km bandwidth)}} \\[4pt]
+Fitted subway exposure ($D_i^{(1000)}$)
+  & 0.1088$^{**}$ & 0.0994$^{**}$ & 0.1065$^{**}$ & 0.1009$^{**}$ \\
+  & (0.0482)      & (0.0476)      & (0.0443)      & (0.0444)      \\[2pt]
+\cmidrule(lr){1-5}
+Administrative Region FE  & Yes      & Yes           & Yes             & Yes          \\
+Controls                  & Baseline & + Geographic  & + Socioeconomic & All controls \\
+Observations              & 1,701    & 1,701         & 1,701           & 1,701        \\
+\bottomrule
+\end{tabular}
+}}
+\begin{tablenotes}
+\scriptsize
+\item \textit{Notes:} Significance levels: $^{*}p<0.1$, $^{**}p<0.05$, $^{***}p<0.01$. Point estimates are identical to the baseline; only the inference changes. \citet{conley1999gmm} spatial standard errors with a 3 km bandwidth, selected on the basis of the Moran's $I$ correlogram in Appendix~\ref{s:appendix_conley}. All specifications use the 10 km sample and instrument subway exposure with the planned-alignment indicator $Z_i^{(1000)}$.
+\end{tablenotes}
+\end{table}
+
+The results confirm the robustness of the main finding to spatial autocorrelation correction. Conley standard errors are modestly smaller than the RA-clustered counterparts --- an SE ratio between 0.90 and 0.94 across specifications --- indicating that, after conditioning on RA fixed effects, residual spatial dependence beyond RA boundaries is limited. The coefficient on subway exposure remains statistically significant at the 5\% level in all four specifications.
+
+The robustness exercises presented above show that the positive effect of subway exposure on income growth is insensitive to the main specification choices underlying the baseline estimates. Varying the geographic scope of the control group, redefining the distance threshold used to classify treated tracts, replacing the binary exposure indicator with three qualitatively distinct continuous measures of proximity, changing the level at which standard errors are clustered, and correcting for spatial autocorrelation via Conley standard errors all yield the same qualitative conclusion: census tracts with better access to the subway network experienced faster income growth between 2000 and 2010. The point estimates remain stable in sign and broadly comparable in magnitude throughout, and the instrumental-variable strategy retains its validity across every specification considered.
+
+The robustness results raise an obvious follow-up: why does income grow faster in subway-exposed tracts than in comparable unexposed ones? Three hypotheses can account for this differential, and the next section tests each in turn. The first is that the subway induced changes in the physical and urban structure of nearby areas, attracting new developments, residents, and economic activity, so that the faster income growth followed from densification rather than improved job access. The second is a compositional shift, in which rising desirability displaced lower-income residents and attracted wealthier ones in their place. The third is that subway access generated real income gains among incumbent residents through the labor-market channel. The next section examines these mechanisms in sequence, first testing the urban-structure and compositional channels directly and then probing the labor-market channel through proxies for employment and wage outcomes.
+

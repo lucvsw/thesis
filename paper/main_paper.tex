@@ -1,0 +1,256 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[portuges,english]{babel} % Portuguese language support (English is the main language)
+%\usepackage[a4paper,margin=1in,footskip=0.20in]{geometry}
+\newcommand{\ignore}[1]{}
+\geometry{left=1in,right=1in,top=0.95in,bottom=1in}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[title]{appendix}
+\usepackage{changepage}
+\usepackage{subcaption}
+\usepackage{csquotes}
+\usepackage{adjustbox}
+\usepackage[graphicx]{realboxes}
+\usepackage{longtable}
+\usepackage[utf8]{inputenc}
+\usepackage{titleps}
+\usepackage[affil-it]{authblk}
+%\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{sectsty}
+\usepackage{titling}
+\usepackage{titletoc}
+\usepackage{pifont}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+%\usepackage{subfig}
+%\usepackage{graphicx}
+% Tables and Figures
+\usepackage{lscape}
+\captionsetup{labelfont={bf,sf},justification=centering,font=small}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{rotating}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing, positioning, arrows.meta}
+\definecolor{myLightGray}{RGB}{191,191,191}
+\definecolor{myGray}{RGB}{160,160,160}
+\definecolor{myDarkGray}{RGB}{144,144,144}
+\definecolor{myDarkRed}{RGB}{167,114,115}
+\definecolor{myRed}{RGB}{255,58,70}
+\definecolor{myGreen}{RGB}{0,255,71}
+\usepackage{colortbl}
+
+\interfootnotelinepenalty=-200 %% Completely prevent breaking of 
+\usepackage[para,online,flushleft]{threeparttable}
+
+
+\usepackage{newfloat}
+\DeclareFloatingEnvironment[
+name=Figure,
+within=section,
+]{suppfigure}
+\DeclareFloatingEnvironment[
+name=Table,
+within=section,
+]{supptable}
+
+
+%\usepackage{bigfoot}
+%\global\dimen\footins = 4cm
+
+%\usepackage[nofiglist,notablist,tabhead,fighead]{endfloat}
+
+
+% Citations
+\usepackage{natbib}
+\newcommand{\citetapos}[1]{\citeauthor{#1}'s \citeyearpar{#1}}
+
+% References in Appendix
+\usepackage{multibib}
+\newcites{sec}{References}
+
+% Math environment
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{commath}
+\usepackage{bbm}
+\usepackage[nottoc]{tocbibind}
+
+\usepackage{nicefrac}
+\newcommand{\xmark}{\ding{55}}%
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}[]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{propapen}{Proposition}[section]
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+
+
+\sectionfont{\large}
+\subsectionfont{\normalsize\mdseries\itshape}
+
+% Invisible section
+\newcommand\invisiblesection[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \sectionmark{#1}}
+
+% Space within tabular
+\renewcommand{\arraystretch}{1.2}
+
+\newpagestyle{online}{%
+  \sethead{}{}{\bf For Online Publication}%
+  \setfoot{}{\thepage}{}%
+  \setheadrule{0pt}%
+  \setfootrule{0pt}%
+}
+
+\renewcommand{\thesubsubsection}{\thesubsection.\Alph{subsubsection}}
+
+% https://tex.stackexchange.com/questions/291603/how-to-put-hyperlinks-in-endfloats-markers
+%\usepackage[nolists]{endfloat}
+%\usepackage{mwe}
+%\usepackage{subcaption}
+
+
+%\renewcommand{\footnotesize}{\fontsize{12pt}{13pt}\selectfont}
+
+\usepackage[pdfborder={0 0 0 [0 0]}, colorlinks=FALSE, urlcolor=magenta,	 citecolor=red, filecolor=magenta, bookmarks=TRUE, pdftitle={Subways and Local Income Growth: Evidence from Brasília},	 pdfauthor={Lucas Dutra}]{hyperref}
+
+\hypersetup{
+    colorlinks = {true},
+    citecolor={blue},
+    urlcolor={blue},
+    linkcolor = {blue}
+    }
+
+\usepackage{xr-hyper}
+\makeatletter
+\newcommand*{\addFileDependency}[1]{% argument=file name and extension
+  \typeout{(#1)}
+  \@addtofilelist{#1}
+  \IfFileExists{#1}{}{\typeout{No file #1.}}
+}
+\makeatother
+ 
+\newcommand*{\myexternaldocument}[1]{%
+    \externaldocument{#1}%
+    \addFileDependency{#1.tex}%
+    \addFileDependency{#1.aux}%
+}
+\myexternaldocument{Paper_appendix}
+
+
+
+\newgeometry{top=1in,bottom=1in,right=1in,left=1in}
+
+\makeatletter
+\providecommand{\floatplace}[1]{}%
+\renewcommand{\floatplace}[1]{% #1 = float type (e.g. figure)
+   \begin{center}
+     \def\floatnumber{\csname thepost#1\endcsname}
+     \def\floatname{\csname #1name\endcsname}
+     \hypertarget{figureback\floatnumber}{}%
+     \@ifundefined{#1anchor\floatnumber}%
+       {[\floatname~\floatnumber\ about here.]}%
+       {\hyperlink{\csname #1anchor\floatnumber\endcsname}%
+         {[\floatname~\floatnumber\ about here.]}}
+   \end{center}}
+
+\newcommand{\figurecaption}[2][\empty]% #1=short caption (optional), #2=caption
+ {\ifx\empty#1\relax \caption[#2]{\hyperlink{figureback\thefigure}{#2}}%
+  \else \caption[#1]{\hyperlink{figureback\thefigure}{#2}}%
+  \fi
+  \immediate\write\@auxout{\string\newfigure{\thefigure}{\@currentHref}}}
+\makeatother
+
+\newcommand{\newfigure}[2]% #1 = \thefigure, #2 = \@currentHref
+  {\expandafter\gdef\csname figureanchor#1\endcsname{#2}}
+ 
+\makeatletter
+%for table
+\newcommand{\tabcaption}[2][\empty]% #1=short caption (optional), #2=caption (tabcaption instead of tablecaption for glossaries)
+{%
+    \ifx\empty#1\relax %
+        \caption[#2]{\hyperlink{tableback\thetable}{#2}}%
+    \else %
+        \caption[#1]{\hyperlink{tableback\thetable}{#2}}%
+    \fi
+    \immediate\write\@auxout{\string\newtable{\thetable}{\@currentHref}}%
+}
+\makeatother
+
+\newcommand{\newtable}[2]% #1 = \thetable, #2 = \@currentHref
+{\expandafter\gdef\csname tableanchor#1\endcsname{#2}}
+
+
+% %########################## TITLE PAGE ########################### 
+
+
+ \title{Subways and Local Income Growth: Evidence from Brasília}
+
+
+
+\author{%
+    \href{}{Lucas Dutra de Paulo}\thanks{Universidade Católica de Brasília, Brasil, e-mail:
+    \href{mailto:lucasdutra0099@gmail.com}{lucasdutra0099@gmail.com}.} 
+}
+
+
+
+
+% %\affil{\small Catholic University of Brasília, Brazil}
+
+
+
+
+ \providecommand{\keywords}[1]{\textbf{\textit{Keywords:}} #1}
+ \providecommand{\jel}[2]{\textbf{\textit{JEL Codes:}} #1}
+
+\date{\small \today}
+
+
+
+
+ \begin{document}
+
+\input{sections/00_frontmatter}
+
+\input{sections/01_introduction}
+
+\input{sections/02_data}
+
+\input{sections/03_methodology}
+
+\input{sections/04_results}
+
+\input{sections/05_mechanisms}
+
+\input{sections/06_conclusion}
+
+\clearpage
+
+\bibliographystyle{econ_aer}
+\bibliography{sample.bib}
+
+\clearpage
+
+\input{sections/07_appendix}
+
+
+
+\end{document}
